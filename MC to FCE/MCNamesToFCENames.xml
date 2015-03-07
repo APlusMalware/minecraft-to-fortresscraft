@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Blocks>
+  <AIR>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Air</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </AIR>
+  <STONE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Rough Hewn Rock</FCEName>
+      <FCEData>FFF</FCEData>
+    </MCValue>
+  </STONE>
+  <GRASS>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Grass</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </GRASS>
+  <DIRT>
+    <MCValue>
+      <Value>0</Value>
+      <FCEName>Dirt</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>1</Value>
+      <FCEName>Field</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>2</Value>
+      <FCEName>Dirt</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </DIRT>
+  <COBBLESTONE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Rock</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </COBBLESTONE>
+  <WOODEN_PLANK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Wooden Planks</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </WOODEN_PLANK>
+  <BEDROCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Bedrock</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BEDROCK>
+  <LAVA>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Magma</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </LAVA>
+  <STATIONARY_LAVA>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Magma</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </STATIONARY_LAVA>
+  <SAND>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Sand</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </SAND>
+  <GRAVEL>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Rubble</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </GRAVEL>
+  <GOLD_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Gold Ore</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </GOLD_ORE>
+  <IRON_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Iron Ore</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </IRON_ORE>
+  <COAL_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Coal Ore</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </COAL_ORE>
+  <WOOD>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Tree Trunk</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </WOOD>
+  <SPONGE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Cement Garden Tile 2</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </SPONGE>
+  <GLASS>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Window</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </GLASS>
+  <YELLOW_FLOWER>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Flowers</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </YELLOW_FLOWER>
+  <RED_ROSE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Pink Flowers</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </RED_ROSE>
+  <GOLD_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Gold Box</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </GOLD_BLOCK>
+  <IRON_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Iron Box</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </IRON_BLOCK>
+  <DOUBLE_SLAB>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Grey Floor Tile</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </DOUBLE_SLAB>
+  <BRICK_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Red Brick</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BRICK_BLOCK>
+  <TNT>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>TNT</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </TNT>
+  <BOOKSHELF>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Book Shelf</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BOOKSHELF>
+  <TORCH>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Torch</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </TORCH>
+  <CHEST>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Storage Crate</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </CHEST>
+  <DIAMOND_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Diamond Ore</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </DIAMOND_ORE>
+  <DIAMOND_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Unknown Crystal</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </DIAMOND_BLOCK>
+  <CRAFTING_TABLE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Manufacturing Plant</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </CRAFTING_TABLE>
+  <FURNACE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </FURNACE>
+  <BURNING_FURNACE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BURNING_FURNACE>
+  <SIGN_POST>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </SIGN_POST>
+  <WALL_SIGN>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </WALL_SIGN>
+  <SNOW>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Snow</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </SNOW>
+  <SNOW_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Sand</FCEName>
+      <FCEData>FFF</FCEData>
+    </MCValue>
+  </SNOW_BLOCK>
+  <STAINED_GLASS>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Window</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue></STAINED_GLASS>
+  <STONE_WITH_SILVERFISH>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Deep Stone</FCEName>
+      <FCEData>FFF</FCEData>
+    </MCValue>
+  </STONE_WITH_SILVERFISH>
+  <STONE_BRICK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Brick</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </STONE_BRICK>
+  <GLASS_PANE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Window</FCEName>
+      <FCEData>000</FCEData>
+    </MCValue>
+  </GLASS_PANE>
+  <MYCELIUM>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Biomass Growth</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </MYCELIUM>
+  <ENCHANTMENT_TABLE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Research Station</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </ENCHANTMENT_TABLE>
+  <BREWING_STAND>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Ore Smelter</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BREWING_STAND>
+  <CAULDRON>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Laboratory</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </CAULDRON>
+  <REDSTONE_LAMP_OFF>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Electric Light</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </REDSTONE_LAMP_OFF>
+  <REDSTONE_LAMP_ON>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Electric Light</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </REDSTONE_LAMP_ON>
+  <DOUBLE_WOOD_SLAB>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Wooden Planks</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </DOUBLE_WOOD_SLAB>
+  <EMERALD_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Emerald Ore</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </EMERALD_ORE>
+  <ENDER_CHEST>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Matter Mover</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </ENDER_CHEST>
+  <BEACON_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Central Power Hub</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BEACON_BLOCK>
+  <COBBLESTONE_WALL>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Rock</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </COBBLESTONE_WALL>
+  <FLOWER_POT>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Garden Sand</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue></FLOWER_POT>
+  <TRAPPED_CHEST>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Storage Crate</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </TRAPPED_CHEST>
+  <NETHER_QUARTZ_ORE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Crystal Deposit</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </NETHER_QUARTZ_ORE>
+  <HOPPER>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Storage Hopper</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </HOPPER>
+  <BLOCK_OF_QUARTZ>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Unknown Crystal</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </BLOCK_OF_QUARTZ>
+  <STATIONARY_WATER>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>67F</FCEData>
+    </MCValue>
+  </STATIONARY_WATER>
+  <LAPIS_LAZULI_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>24A</FCEData>
+    </MCValue>
+  </LAPIS_LAZULI_BLOCK>
+  <SANDSTONE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Garden Packed Rocks</FCEName>
+      <FCEData>FEB</FCEData>
+    </MCValue>
+  </SANDSTONE>
+  <CACTUS>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>182</FCEData>
+    </MCValue>
+  </CACTUS>
+  <PUMPKIN>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>E91</FCEData>
+    </MCValue>
+  </PUMPKIN>
+  <JACK-O-LANTERN>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>E91</FCEData>
+    </MCValue>
+  </JACK-O-LANTERN>
+  <EMERALD_BLOCK>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>6E8</FCEData>
+    </MCValue>
+  </EMERALD_BLOCK>
+  <BLOCK_OF_REDSTONE>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>910</FCEData>
+    </MCValue>
+  </BLOCK_OF_REDSTONE>
+  <WOOL>
+    <MCValue>
+      <Value>0</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>DDD</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>1</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>D73</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>2</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>B5B</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>68C</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>4</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>BA2</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>5</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>4A3</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>6</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>D89</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>7</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>444</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>8</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>9AA</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>9</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>268</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>10</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>73B</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>11</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>238</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>12</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>431</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>13</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>341</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>14</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>933</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>15</Value>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>111</FCEData>
+    </MCValue>
+  </WOOL>
+  <LEAVES>
+    <MCValue>
+      <Value>0</Value>
+      <Value>2</Value>
+      <Value>4</Value>
+      <Value>6</Value>
+      <Value>8</Value>
+      <Value>10</Value>
+      <Value>12</Value>
+      <Value>14</Value>
+      <FCEName>Leaves</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>1</Value>
+      <Value>5</Value>
+      <Value>9</Value>
+      <Value>13</Value>
+      <FCEName>Forest</FCEName>
+      <FCEData>391</FCEData>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+      <Value>7</Value>
+      <Value>11</Value>
+      <Value>15</Value>
+      <FCEName>Rainforest</FCEName>
+      <FCEData>391</FCEData>
+    </MCValue>
+  </LEAVES>
+</Blocks>
