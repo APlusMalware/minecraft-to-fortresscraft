@@ -363,44 +363,38 @@ namespace MC_to_FCE
 
                             if (k == 15)
                             {
-                                //north = north ?? world.GetSegment(segment.X, segment.Y, segment.Z + 1);
-                                //if (isCubeTransparent(north.maCubeData[i, j, 0].Type))
-                                if (isCubeTransparent(world.GetBlock(segment.X + i, segment.Y + j, segment.Z + k + 1).Type))
+                                north = north ?? world.GetSegment(segment.X, segment.Y, segment.Z + 1);
+                                if (isCubeTransparent(north.maCubeData[i, j, 0].Type))
                                     flags += 0x08;
                             }
                             if (k == 0)
                             {
-                                //south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 1);
-                                //if (isCubeTransparent(south.maCubeData[i, j, 15].Type))
-                                if(isCubeTransparent(world.GetBlock(segment.X + i, segment.Y + j, segment.Z + k - 1).Type))
+                                south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 1);
+                                if (isCubeTransparent(south.maCubeData[i, j, 15].Type))
                                     flags += 0x04;
                             }
                             if (i == 15)
                             {
-                                //east = east ?? world.GetSegment(segment.X + 1, segment.Y, segment.Z);
-                                //if (isCubeTransparent(east.maCubeData[0, j, k].Type))
-                                if (isCubeTransparent(world.GetBlock(segment.X + i + 1, segment.Y + j, segment.Z + k).Type))
+                                east = east ?? world.GetSegment(segment.X + 1, segment.Y, segment.Z);
+                                if (isCubeTransparent(east.maCubeData[0, j, k].Type))
                                     flags += 0x10;
                             }
                             if (i == 0)
                             {
-                                //west = west ?? world.GetSegment(segment.X - 1, segment.Y, segment.Z );
-                                //if (isCubeTransparent(west.maCubeData[15, j, k].Type))
-                                if (isCubeTransparent(world.GetBlock(segment.X + i - 1, segment.Y + j, segment.Z + k).Type))
+                                west = west ?? world.GetSegment(segment.X - 1, segment.Y, segment.Z );
+                                if (isCubeTransparent(west.maCubeData[15, j, k].Type))
                                     flags += 0x20;
                             }
                             if (j == 15)
                             {
-                                //above = above ?? world.GetSegment(segment.X, segment.Y + 1, segment.Z);
-                                //if (isCubeTransparent(above.maCubeData[i, 0, k].Type))
-                                if (isCubeTransparent(world.GetBlock(segment.X + i, segment.Y + j + 1, segment.Z + k).Type))
+                                above = above ?? world.GetSegment(segment.X, segment.Y + 1, segment.Z);
+                                if (isCubeTransparent(above.maCubeData[i, 0, k].Type))
                                     flags += 0x01;
                             }
                             if (j == 0)
                             {
-                                //below = below ?? world.GetSegment(segment.X, segment.Y - 1, segment.Z);
-                                //if (isCubeTransparent(below.maCubeData[i, 15, k].Type))
-                                if (isCubeTransparent(world.GetBlock(segment.X + i, segment.Y + j - 1, segment.Z + k).Type))
+                                below = below ?? world.GetSegment(segment.X, segment.Y - 1, segment.Z);
+                                if (isCubeTransparent(below.maCubeData[i, 15, k].Type))
                                     flags += 0x02;
                             }
 
