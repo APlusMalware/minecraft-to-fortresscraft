@@ -367,7 +367,7 @@ namespace MC_to_FCE
                                 if (isCubeTransparent(north.maCubeData[i, j, 0].Type))
                                     flags += 0x08;
                             }
-                            if (k == 0)
+                            else if (k == 0)
                             {
                                 south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 1);
                                 if (isCubeTransparent(south.maCubeData[i, j, 15].Type))
@@ -379,7 +379,7 @@ namespace MC_to_FCE
                                 if (isCubeTransparent(east.maCubeData[0, j, k].Type))
                                     flags += 0x10;
                             }
-                            if (i == 0)
+                            else if (i == 0)
                             {
                                 west = west ?? world.GetSegment(segment.X - 1, segment.Y, segment.Z );
                                 if (isCubeTransparent(west.maCubeData[15, j, k].Type))
@@ -391,7 +391,7 @@ namespace MC_to_FCE
                                 if (isCubeTransparent(above.maCubeData[i, 0, k].Type))
                                     flags += 0x01;
                             }
-                            if (j == 0)
+                            else if (j == 0)
                             {
                                 below = below ?? world.GetSegment(segment.X, segment.Y - 1, segment.Z);
                                 if (isCubeTransparent(below.maCubeData[i, 15, k].Type))
