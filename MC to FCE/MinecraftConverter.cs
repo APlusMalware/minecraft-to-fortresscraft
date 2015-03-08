@@ -14,8 +14,7 @@ namespace MC_to_FCE
 {
     public class MinecraftConverter
     {
-        Dictionary<UInt16, CubeData> fceCubes = new Dictionary<UInt16, CubeData>();
-        List<CubeData> fceCubeList = new List<CubeData>();
+        IDictionary<UInt16, CubeType> fceCubes;
         Dictionary<UInt32, UInt32> mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
         Dictionary<UInt16, String> unknownBlocks = new Dictionary<UInt16, String>();
 
@@ -25,54 +24,7 @@ namespace MC_to_FCE
         public MinecraftConverter(String fceDirectory)
         {
             _fceDirectory = fceDirectory;
-        }
-        
-        public void LoadFCETerrainData(String installDirectory = null)
-        {
-            installDirectory = installDirectory ?? (String) Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 254200", "InstallLocation", null);
-            String filePath = Path.Combine(installDirectory, "32\\Default\\Data\\TerrainData.xml");
-            var terrainData = new XmlDocument();
-            terrainData.Load(filePath);
-            XmlNodeList elements = terrainData.GetElementsByTagName("ArrayOfTerrainDataEntry");
-            if (elements.Count > 0)
-            {
-                foreach (XmlNode terrainDataEntry in elements[0])
-                {
-                    UInt16 cubeType = 0;
-                    String name = "";
-                    Boolean isSolid = false, isTransparent = false, isHollow = false, isGlass = false, isPassable = false;
-                    foreach (XmlNode cubeDatum in terrainDataEntry.ChildNodes)
-                    {
-                        switch (cubeDatum.Name)
-                        {
-                            case "CubeType":
-                                cubeType = UInt16.Parse(cubeDatum.InnerText);
-                                break;
-                            case "Name":
-                                name = cubeDatum.InnerText;
-                                break;
-                            case "isSolid":
-                                isSolid = Boolean.Parse(cubeDatum.InnerText);
-                                break;
-                            case "isTransparent":
-                                isTransparent = Boolean.Parse(cubeDatum.InnerText);
-                                break;
-                            case "isHollow":
-                                isHollow = Boolean.Parse(cubeDatum.InnerText);
-                                break;
-                            case "isGlass":
-                                isGlass = Boolean.Parse(cubeDatum.InnerText);
-                                break;
-                            case "isPassable":
-                                isPassable = Boolean.Parse(cubeDatum.InnerText);
-                                break;
-                        }
-                    }
-                    CubeData cube = new CubeData(cubeType, name, isSolid, isTransparent, isHollow, isGlass, isPassable);
-                    fceCubes.Add(cubeType, cube);
-                    fceCubeList.Add(cube);
-                }
-            }
+            fceCubes = CubeType.Cubes;
         }
 
         public void LoadNameMap(String filePath)
@@ -117,10 +69,10 @@ namespace MC_to_FCE
                             else if (node.Name == "FCEData")
                                 fceData = UInt16.Parse(node.InnerText, NumberStyles.HexNumber);
                         }
-                        CubeData cube = fceCubeList.Find(c => c.Name == fceName);
+                        CubeType cube = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
                         if (cube == null)
                              continue;
-                        UInt32 fceIdData = (UInt32)cube.CubeType << 16 | fceData;
+                        UInt32 fceIdData = (UInt32)cube.TypeId << 16 | fceData;
                         foreach (SByte mcDatum in mcData)
                         {
                             UInt32 mcIdData = mcIdShifted;
@@ -251,24 +203,6 @@ namespace MC_to_FCE
                 Directory.CreateDirectory(path);
         }
 
-        public void FixCubeFlags(World world)
-        {
-            String[] directories = Directory.GetDirectories(Path.Combine(world.Location, "Segments"));
-            for (UInt32 i = 0; i < directories.Length; i++)
-            {
-                String path = directories[i];
-                String[] files = Directory.GetFiles(path);
-                for(UInt32 j = 0; j < files.Length; j++)
-                {
-                    Segment segment = world.GetSegment(new SegmentCoords(Path.GetFileNameWithoutExtension(files[j])));
-                    segment.FullFileName = files[j];
-                    fixOuterFlags(world, segment);
-
-                    segment.WriteSegment(File.Open(files[j], FileMode.OpenOrCreate));
-                }
-            }
-        }
-
         private void fixInnerFlags(World world, Segment segment)
         {
             Cube[, ,] cubeMap = segment.GetMappedCubeData();
@@ -289,37 +223,37 @@ namespace MC_to_FCE
                             if (k < 15)
                             {
                                 north = cubeMap[i, j, k + 1];
-                                if (isCubeTransparent(north.Type))
+                                if (CubeType.Cubes[north.Type].IsOpen)
                                     flags += 0x08;
                             }
                             if (k > 0)
                             {
                                 south = cubeMap[i, j, k - 1];
-                                if (isCubeTransparent(south.Type))
+                                if (CubeType.Cubes[south.Type].IsOpen)
                                     flags += 0x04;
                             }
                             if (i < 15)
                             {
                                 east = cubeMap[i + 1, j, k];
-                                if (isCubeTransparent(east.Type))
+                                if (CubeType.Cubes[east.Type].IsOpen)
                                     flags += 0x10;
                             }
                             if (i > 0)
                             {
                                 west = cubeMap[i - 1, j, k];
-                                if (isCubeTransparent(west.Type))
+                                if (CubeType.Cubes[west.Type].IsOpen)
                                     flags += 0x20;
                             }
                             if (j < 15)
                             {
                                 above = cubeMap[i, j + 1, k];
-                                if (isCubeTransparent(above.Type))
+                                if (CubeType.Cubes[above.Type].IsOpen)
                                     flags += 0x01;
                             }
                             if (j > 0)
                             {
                                 below = cubeMap[i, j - 1, k];
-                                if (isCubeTransparent(below.Type))
+                                if (CubeType.Cubes[below.Type].IsOpen)
                                     flags += 0x02;
                             }
 
@@ -335,107 +269,6 @@ namespace MC_to_FCE
             segment.HasFaces = !empty;
             segment.maCubeData = cubeMap;
             cubeMap = null;
-        }
-
-        private void fixOuterFlags(World world, Segment segment)
-        {
-            Cube[, ,] cubeMap = segment.GetMappedCubeData();
-
-            world.Segments.Clear();
-            Segment north = null;
-            Segment south = null;
-            Segment east = null;
-            Segment west = null;
-            Segment above = null;
-            Segment below = null;
-
-            
-            for (Byte i = 0; i < 16; i++)
-            {
-                for (Byte j = 0; j < 16; j++)
-                {
-                    for (Byte k = 0; k < 16; k++)
-                    {
-                        Cube cube = cubeMap[i, j, k];
-                        if (!cube.IsAir())
-                        {
-                            Byte flags = cube.Flags;
-
-                            if (k == 15)
-                            {
-                                north = north ?? world.GetSegment(segment.X, segment.Y, segment.Z + 1);
-                                if (isCubeTransparent(north.maCubeData[i, j, 0].Type))
-                                    flags += 0x08;
-                            }
-                            else if (k == 0)
-                            {
-                                south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 1);
-                                if (isCubeTransparent(south.maCubeData[i, j, 15].Type))
-                                    flags += 0x04;
-                            }
-                            if (i == 15)
-                            {
-                                east = east ?? world.GetSegment(segment.X + 1, segment.Y, segment.Z);
-                                if (isCubeTransparent(east.maCubeData[0, j, k].Type))
-                                    flags += 0x10;
-                            }
-                            else if (i == 0)
-                            {
-                                west = west ?? world.GetSegment(segment.X - 1, segment.Y, segment.Z );
-                                if (isCubeTransparent(west.maCubeData[15, j, k].Type))
-                                    flags += 0x20;
-                            }
-                            if (j == 15)
-                            {
-                                above = above ?? world.GetSegment(segment.X, segment.Y + 1, segment.Z);
-                                if (isCubeTransparent(above.maCubeData[i, 0, k].Type))
-                                    flags += 0x01;
-                            }
-                            else if (j == 0)
-                            {
-                                below = below ?? world.GetSegment(segment.X, segment.Y - 1, segment.Z);
-                                if (isCubeTransparent(below.maCubeData[i, 15, k].Type))
-                                    flags += 0x02;
-                            }
-
-                            cube.Flags = flags;
-                        }
-                        else
-                            cube.Flags = 0;
-                    }
-                }
-            }
-
-            segment.maCubeData = cubeMap;
-            cubeMap = null;
-        }
-
-        private Boolean isCubeTransparent(UInt16 type)
-        {
-            CubeData cube = fceCubes[type];
-            if (cube.IsTransparent || cube.IsHollow)
-                return true;
-            else
-                return false;
-        }
-
-        public void BeginZip(World world)
-        {
-            String[] directories = Directory.GetDirectories(Path.Combine(world.Location, "Segments"));
-            ParallelOptions po = new ParallelOptions();
-            Parallel.ForEach(directories, directory =>
-            {
-                String fileName = directory + ".zip";
-                try
-                {
-                    ZipFile.CreateFromDirectory(directory, fileName);
-                    Directory.Delete(directory, true);
-                }
-                catch (Exception arg)
-                {
-                    Console.Error.WriteLine("exception: " + arg);
-                }
-            });
         }
     }
 }
