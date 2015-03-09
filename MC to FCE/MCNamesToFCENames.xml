@@ -23,17 +23,7 @@
   </GRASS>
   <DIRT>
     <MCValue>
-      <Value>0</Value>
-      <FCEName>Dirt</FCEName>
-      <FCEData>0</FCEData>
-    </MCValue>
-    <MCValue>
-      <Value>1</Value>
-      <FCEName>Field</FCEName>
-      <FCEData>0</FCEData>
-    </MCValue>
-    <MCValue>
-      <Value>2</Value>
+      <Value>-1</Value>
       <FCEName>Dirt</FCEName>
       <FCEData>0</FCEData>
     </MCValue>
@@ -220,6 +210,13 @@
       <FCEData>0</FCEData>
     </MCValue>
   </CRAFTING_TABLE>
+  <FARMLAND>
+    <MCValue>
+      <Value>-1</Value>
+      <FCEName>Field</FCEName>
+      <FCEData>0</FCEData>
+    </MCValue>
+  </FARMLAND>
   <FURNACE>
     <MCValue>
       <Value>-1</Value>
@@ -404,7 +401,7 @@
     <MCValue>
       <Value>-1</Value>
       <FCEName>White Canvas</FCEName>
-      <FCEData>67F</FCEData>
+      <FCEData>12B</FCEData>
     </MCValue>
   </STATIONARY_WATER>
   <LAPIS_LAZULI_BLOCK>

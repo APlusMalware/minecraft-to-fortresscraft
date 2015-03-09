@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Linq;
@@ -8,23 +9,33 @@ using Substrate;
 using Substrate.Core;
 using Synergy.FCU;
 using System.Globalization;
-using System.IO.Compression;
+using System.Threading;
 
 namespace MC_to_FCE
 {
     public class MinecraftConverter
     {
         IDictionary<UInt16, CubeType> fceCubes;
-        Dictionary<UInt32, UInt32> mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
-        Dictionary<UInt16, String> unknownBlocks = new Dictionary<UInt16, String>();
+        Dictionary<UInt32, UInt32> mcIdDataToFCEIdData;
+        Dictionary<UInt16, String> unknownBlocks;
 
         public Boolean UnknownsMapToDetail { get; set; }
         private String _fceDirectory;
-        
+
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private ConcurrentQueue<Segment> _saveQueue;
+        private Task _saveTask;
+        private CancellationToken _token;
+
+
         public MinecraftConverter(String fceDirectory)
         {
+            mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
+            unknownBlocks = new Dictionary<UInt16, String>();
             _fceDirectory = fceDirectory;
             fceCubes = CubeType.Cubes;
+            _saveQueue = new ConcurrentQueue<Segment>();
+
         }
 
         public void LoadNameMap(String filePath)
@@ -92,6 +103,7 @@ namespace MC_to_FCE
             String segmentDirectory = Path.Combine(_fceDirectory, "Segments");
             String worldName;
             Boolean anvil = true;
+
             if (!Directory.Exists(_fceDirectory))
             {
                 Directory.CreateDirectory(_fceDirectory);
@@ -135,8 +147,10 @@ namespace MC_to_FCE
             }
 
             World fceWorld = new World(worldName, _fceDirectory);
-            
-            foreach(ChunkRef chunk in chunkManager)
+
+            startSaveThread(fceWorld);
+
+            foreach (ChunkRef chunk in chunkManager)
             {
                 Int32 spawnOffsetX = spawnChunkX - chunk.X;
                 Int32 spawnOffsetZ = spawnChunkZ - chunk.Z;
@@ -182,13 +196,13 @@ namespace MC_to_FCE
 
                     fixInnerFlags(fceWorld, segment);
 
-                    checkSubDir(fceWorld, segment.GetCoords());
-                    FileStream fs = File.Open(Path.Combine(segmentDirectory, segment.GetSegmentFileName()), FileMode.Create);
-                    segment.WriteSegment(fs);
-                    fs.Dispose();
+
+                    _saveQueue.Enqueue(segment);
                 }
             }
-
+            _tokenSource.Cancel(false);
+            Task.WaitAll(_saveTask);
+            
             return fceWorld;
         }
 
@@ -269,6 +283,36 @@ namespace MC_to_FCE
             segment.HasFaces = !empty;
             segment.maCubeData = cubeMap;
             cubeMap = null;
+        }
+
+        private void startSaveThread(World world)
+        {
+            ConcurrentQueue<Segment> queue = _saveQueue;
+            _token = _tokenSource.Token;
+            _saveTask = Task.Factory.StartNew(() => 
+            {
+                Segment segment;
+                Int32 sleepTime = 0;
+                while (true)
+                {
+                    if (_token.IsCancellationRequested && _saveQueue.Count == 0)
+                        break;
+                    if (queue.TryDequeue(out segment))
+                    {
+                        checkSubDir(world, segment.GetCoords());
+                        FileStream fs = File.Open(Path.Combine(world.SegmentPath, segment.GetSegmentFileName()), FileMode.Create);
+                        segment.WriteSegment(fs);
+                        fs.Dispose();
+                        sleepTime = 0;
+                    }
+                    else
+                    {
+                        sleepTime += (50 - sleepTime) / 4;
+                        System.Threading.Thread.Sleep(sleepTime);
+                    }
+                }
+            }, _tokenSource.Token);
+            
         }
     }
 }

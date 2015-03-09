@@ -1,8 +1,9 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,26 +26,44 @@ namespace MC_to_FCE
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Int64 start = DateTime.Now.Ticks;
+            if (Directory.Exists(textBox3.Text + "Segments"))
+                Directory.Delete(textBox3.Text + "Segments", true);
+            CubeType.LoadFCETerrainData();
             _converter = new MinecraftConverter(textBox3.Text);
-            System.IO.Directory.Delete(textBox3.Text + "Segments", true);
-            _converter.LoadFCETerrainData();
+            Int64 startConvertTime = DateTime.Now.Ticks;
             _converter.LoadNameMap(@"r:\documents\visual studio 2013\Projects\MC to FCE\MC to FCE\MCNamesToFCENames.xml");
+
             world = _converter.ConvertWorld(textBox2.Text);
-            _converter.FixCubeFlags(world);
-            Int64 end = DateTime.Now.Ticks;
-            _converter.BeginZip(world);
-            textBox4.Text = ((end - start) / 10000000D).ToString();
+            Int64 endConvertTime = DateTime.Now.Ticks;
+            textBox4.Text = ((endConvertTime - startConvertTime) / 10000000D).ToString();
+
+            List<String> failed = FlagPass.FixCubeFlags(world);
+            Int64 endFlagTime = DateTime.Now.Ticks;
+            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
+
+            foreach (String fileName in failed)
+                logBox.AppendText(failed + "/n");
+
+            world.Zip();
+            Int64 endZipTime = DateTime.Now.Ticks;
+            textBox6.Text = ((endZipTime - endFlagTime) / 10000000D).ToString();
+
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _converter.FixCubeFlags(world);
+            world = new World("New World 2", textBox3.Text);
+            CubeType.LoadFCETerrainData();
+            Int64 endConvertTime = DateTime.Now.Ticks;
+            FlagPass.FixCubeFlags(world);
+            Int64 endFlagTime = DateTime.Now.Ticks;
+            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _converter.BeginZip(world);
+            world.Zip();
         }
 
         private void button4_Click(object sender, EventArgs e)
