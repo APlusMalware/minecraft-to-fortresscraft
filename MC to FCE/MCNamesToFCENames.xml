@@ -199,7 +199,7 @@
   <DIAMOND_BLOCK>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Unknown Crystal</FCEName>
+      <FCEName>Crystal Deposit</FCEName>
       <FCEData>0</FCEData>
     </MCValue>
   </DIAMOND_BLOCK>
@@ -393,7 +393,7 @@
   <BLOCK_OF_QUARTZ>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Unknown Crystal</FCEName>
+      <FCEName>Crystal Deposit</FCEName>
       <FCEData>0</FCEData>
     </MCValue>
   </BLOCK_OF_QUARTZ>
