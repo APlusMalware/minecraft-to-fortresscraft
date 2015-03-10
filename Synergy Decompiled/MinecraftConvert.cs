@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Xml;
 namespace Synergy.FCU
 {
-    public class MinecraftConvertCopy
+    public class MinecraftConvert
     {
         public Dictionary<string, int> RockMap = new Dictionary<string, int>();
         public Dictionary<string, string> RockConvertMap = new Dictionary<string, string>();
@@ -24,10 +24,10 @@ namespace Synergy.FCU
         {
             get
             {
-                return MinecraftConvertCopy.EmptySegments + MinecraftConvertCopy.NonEmptySegments;
+                return MinecraftConvert.EmptySegments + MinecraftConvert.NonEmptySegments;
             }
         }
-        public MinecraftConvertCopy(string worldLocation)
+        public MinecraftConvert(string worldLocation)
         {
             this.WorldLocation = worldLocation;
             this.LoadRockData("cubedata.xml");
@@ -61,7 +61,7 @@ namespace Synergy.FCU
                 }
             }
             FieldInfo[] fields = typeof(BlockType).GetFields();
-            this.MCConvertMap = new string[fields.Length + 20];
+            this.MCConvertMap = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {
                 FieldInfo fieldInfo = fields[i];
@@ -190,7 +190,5 @@ namespace Synergy.FCU
             }
             return result;
         }
-
-
     }
 }

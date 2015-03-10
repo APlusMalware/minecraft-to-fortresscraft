@@ -98,12 +98,10 @@ namespace MC_to_FCE
         }
 
 
-        public static void LoadFCETerrainData(String installDirectory = null)
+        public static void LoadFCETerrainData(String filePath)
         {
             IDictionary<UInt16, CubeType> cubes = new ConcurrentDictionary<UInt16, CubeType>();
-            installDirectory = installDirectory ?? (String)Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 254200", "InstallLocation", null);
-            String filePath = Path.Combine(installDirectory, "32\\Default\\Data\\TerrainData.xml");
-            var terrainData = new XmlDocument();
+            XmlDocument terrainData = new XmlDocument();
             terrainData.Load(filePath);
             XmlNodeList elements = terrainData.GetElementsByTagName("ArrayOfTerrainDataEntry");
             if (elements.Count > 0)

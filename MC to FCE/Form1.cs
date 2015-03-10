@@ -13,29 +13,96 @@ using Synergy.FCU;
 
 namespace MC_to_FCE
 {
-    public partial class Form1 : Form
+    public partial class MCToFCEForm : Form
     {
         private MinecraftConverter _converter;
         private World world; 
 
-        public Form1()
+        public MCToFCEForm()
         {
             InitializeComponent();
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MCToFCENamePathButton_click(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox3.Text + "Segments"))
-                Directory.Delete(textBox3.Text + "Segments", true);
-            CubeType.LoadFCETerrainData();
-            _converter = new MinecraftConverter(textBox3.Text);
-            Int64 startConvertTime = DateTime.Now.Ticks;
-            List<String> unfoundNames = _converter.LoadNameMap(@"r:\documents\visual studio 2013\Projects\MC to FCE\MC to FCE\MCNamesToFCENames.xml");
+            if (MCToFCENamePathDialog.ShowDialog() == DialogResult.OK)
+            {
+                MCToFCENamePathInput.Text = MCToFCENamePathDialog.FileName;
+            }
+        }
+
+        private void MinecraftWorldPathButton_click(object sender, EventArgs e)
+        {
+            if (MinecraftWorldPathDialog.ShowDialog() == DialogResult.OK)
+            {
+                MinecraftWorldPathInput.Text = MinecraftWorldPathDialog.FileName;
+            }
+        }
+
+        private void FortressCraftWorldPathButton_click(object sender, EventArgs e)
+        {
+            if (FortressCraftWorldPathDialog.ShowDialog() == DialogResult.OK)
+            {
+                FortressCraftWorldPathInput.Text = FortressCraftWorldPathDialog.FileName;
+            }
+        }
+
+        private void FortressCraftTerrainDataPathButton_Click(object sender, EventArgs e)
+        {
+            if (FortressCraftTerrainDataPathDialog.ShowDialog() == DialogResult.OK)
+            {
+                FortressCraftTerrainDataPathInput.Text = FortressCraftTerrainDataPathDialog.FileName;
+            }
+        }
+
+        private void MCToFCEForm_Load(object sender, EventArgs e)
+        {
+            MCToFCENamePathInput.Text = Path.Combine(Directory.GetCurrentDirectory(), "MCNamesToFCENames.xml");
+            MinecraftWorldPathInput.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft", "saves");
+            FortressCraftWorldPathInput.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", "ProjectorGames", "FortressCraft", "Worlds");
+            FortressCraftTerrainDataPathInput.Text = Path.Combine((String)Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 254200", "InstallLocation", null), @"32\Default\Data", @"TerrainData.xml");
+
+            MCToFCENamePathDialog.InitialDirectory = MCToFCENamePathInput.Text;
+            MinecraftWorldPathDialog.InitialDirectory = MinecraftWorldPathInput.Text;
+            FortressCraftWorldPathDialog.InitialDirectory = FortressCraftWorldPathInput.Text;
+            FortressCraftTerrainDataPathDialog.InitialDirectory = FortressCraftTerrainDataPathInput.Text;
+        }
+
+        private void somemethod()
+        {
+            String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName;
+            String mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName;
+            String mcNamesToFCENamesDirectory = MCToFCENamePathInput.Text;
+            String terainDataPath = FortressCraftTerrainDataPathInput.Text;
+
+            world = new World("New World 2", FortressCraftWorldPathInput.Text);
+            CubeType.LoadFCETerrainData(terainDataPath);
+            Int64 endConvertTime = DateTime.Now.Ticks;
+            FlagPass.FixCubeFlags(world);
+            Int64 endFlagTime = DateTime.Now.Ticks;
+            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
+        }
+
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + @"\";
+            String mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + @"\";
+            String mcNamesToFCENamesDirectory = MCToFCENamePathInput.Text;
+            String terainDataPath = FortressCraftTerrainDataPathInput.Text;
+            if (Directory.Exists(fceDirectory + "Segments"))
+                Directory.Delete(fceDirectory + "Segments", true);
+
+            CubeType.LoadFCETerrainData(terainDataPath);
+            _converter = new MinecraftConverter(fceDirectory);
+            List<String> unfoundNames = _converter.LoadNameMap(mcNamesToFCENamesDirectory);
             foreach (String name in unfoundNames)
                 logBox.AppendText("Minecraft block name \"" + name + "\" was not found. /n");
 
-            world = _converter.ConvertWorld(textBox2.Text);
+            Int64 startConvertTime = DateTime.Now.Ticks;
+            world = _converter.ConvertWorld(mcDirectory);
             Int64 endConvertTime = DateTime.Now.Ticks;
             textBox4.Text = ((endConvertTime - startConvertTime) / 10000000D).ToString();
 
@@ -49,33 +116,6 @@ namespace MC_to_FCE
             world.Zip();
             Int64 endZipTime = DateTime.Now.Ticks;
             textBox6.Text = ((endZipTime - endFlagTime) / 10000000D).ToString();
-
-
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            world = new World("New World 2", textBox3.Text);
-            CubeType.LoadFCETerrainData();
-            Int64 endConvertTime = DateTime.Now.Ticks;
-            FlagPass.FixCubeFlags(world);
-            Int64 endFlagTime = DateTime.Now.Ticks;
-            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            world.Zip();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MC_to_FCE
 {
-    partial class Form1
+    partial class MCToFCEForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,17 +29,23 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.MCToFCENamePathInput = new System.Windows.Forms.TextBox();
+            this.MCToFCENamePathButton = new System.Windows.Forms.Button();
+            this.MinecraftWorldPathInput = new System.Windows.Forms.TextBox();
+            this.FortressCraftWorldPathInput = new System.Windows.Forms.TextBox();
+            this.MinecraftWorldPathButton = new System.Windows.Forms.Button();
+            this.FortressCraftWorldPathButton = new System.Windows.Forms.Button();
+            this.StartConvertButton = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.logBox = new System.Windows.Forms.TextBox();
+            this.MCToFCENamePathDialog = new System.Windows.Forms.OpenFileDialog();
+            this.FortressCraftTerrainDataPathInput = new System.Windows.Forms.TextBox();
+            this.FortressCraftTerrainDataPathDialog = new System.Windows.Forms.OpenFileDialog();
+            this.FortressCraftWorldPathDialog = new System.Windows.Forms.OpenFileDialog();
+            this.MinecraftWorldPathDialog = new System.Windows.Forms.OpenFileDialog();
+            this.FortressCraftTerrainDataPathButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -51,121 +57,163 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Cube Mapping Path";
             // 
-            // textBox1
+            // MCToFCENamePathInput
             // 
-            this.textBox1.Location = new System.Drawing.Point(121, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(312, 20);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "R:\\Documents\\Visual Studio 2013\\Projects\\MC to FCE\\MC to FCE\\CubeMappings.xml";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.MCToFCENamePathInput.Location = new System.Drawing.Point(120, 67);
+            this.MCToFCENamePathInput.Name = "MCToFCENamePathInput";
+            this.MCToFCENamePathInput.Size = new System.Drawing.Size(486, 20);
+            this.MCToFCENamePathInput.TabIndex = 1;
+            this.MCToFCENamePathInput.Text = "R:\\Documents\\Visual Studio 2013\\Projects\\MC to FCE\\MC to FCE\\MCNamesToFCENames.xm" +
+    "l";
             // 
-            // button1
+            // MCToFCENamePathButton
             // 
-            this.button1.Location = new System.Drawing.Point(440, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.MCToFCENamePathButton.Location = new System.Drawing.Point(612, 65);
+            this.MCToFCENamePathButton.Name = "MCToFCENamePathButton";
+            this.MCToFCENamePathButton.Size = new System.Drawing.Size(91, 23);
+            this.MCToFCENamePathButton.TabIndex = 2;
+            this.MCToFCENamePathButton.Text = "Select File";
+            this.MCToFCENamePathButton.UseVisualStyleBackColor = true;
+            this.MCToFCENamePathButton.Click += new System.EventHandler(this.MCToFCENamePathButton_click);
             // 
-            // textBox2
+            // MinecraftWorldPathInput
             // 
-            this.textBox2.Location = new System.Drawing.Point(121, 40);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(312, 20);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.Text = "C:\\Users\\Ultimate\\AppData\\Roaming\\.minecraft\\saves\\New World 2";
+            this.MinecraftWorldPathInput.Location = new System.Drawing.Point(120, 40);
+            this.MinecraftWorldPathInput.Name = "MinecraftWorldPathInput";
+            this.MinecraftWorldPathInput.Size = new System.Drawing.Size(486, 20);
+            this.MinecraftWorldPathInput.TabIndex = 3;
+            this.MinecraftWorldPathInput.Text = "C:\\Users\\Ultimate\\AppData\\Roaming\\.minecraft\\saves\\New World 2";
             // 
-            // textBox3
+            // FortressCraftWorldPathInput
             // 
-            this.textBox3.Location = new System.Drawing.Point(121, 67);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(312, 20);
-            this.textBox3.TabIndex = 4;
-            this.textBox3.Text = "C:\\Users\\Ultimate\\AppData\\LocalLow\\ProjectorGames\\FortressCraft\\Worlds\\MC Convert" +
+            this.FortressCraftWorldPathInput.Location = new System.Drawing.Point(120, 13);
+            this.FortressCraftWorldPathInput.Name = "FortressCraftWorldPathInput";
+            this.FortressCraftWorldPathInput.Size = new System.Drawing.Size(486, 20);
+            this.FortressCraftWorldPathInput.TabIndex = 4;
+            this.FortressCraftWorldPathInput.Text = "C:\\Users\\Ultimate\\AppData\\LocalLow\\ProjectorGames\\FortressCraft\\Worlds\\MC Convert" +
     "ed 2\\";
             // 
-            // button2
+            // MinecraftWorldPathButton
             // 
-            this.button2.Location = new System.Drawing.Point(440, 63);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.MinecraftWorldPathButton.Location = new System.Drawing.Point(612, 38);
+            this.MinecraftWorldPathButton.Name = "MinecraftWorldPathButton";
+            this.MinecraftWorldPathButton.Size = new System.Drawing.Size(91, 23);
+            this.MinecraftWorldPathButton.TabIndex = 5;
+            this.MinecraftWorldPathButton.Text = "Select Folder";
+            this.MinecraftWorldPathButton.UseVisualStyleBackColor = true;
+            this.MinecraftWorldPathButton.Click += new System.EventHandler(this.MinecraftWorldPathButton_click);
             // 
-            // button3
+            // FortressCraftWorldPathButton
             // 
-            this.button3.Location = new System.Drawing.Point(440, 171);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.FortressCraftWorldPathButton.Location = new System.Drawing.Point(612, 11);
+            this.FortressCraftWorldPathButton.Name = "FortressCraftWorldPathButton";
+            this.FortressCraftWorldPathButton.Size = new System.Drawing.Size(91, 23);
+            this.FortressCraftWorldPathButton.TabIndex = 6;
+            this.FortressCraftWorldPathButton.Text = "Select Folder";
+            this.FortressCraftWorldPathButton.UseVisualStyleBackColor = true;
+            this.FortressCraftWorldPathButton.Click += new System.EventHandler(this.FortressCraftWorldPathButton_click);
             // 
-            // button4
+            // StartConvertButton
             // 
-            this.button4.Location = new System.Drawing.Point(440, 200);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.StartConvertButton.Location = new System.Drawing.Point(612, 222);
+            this.StartConvertButton.Name = "StartConvertButton";
+            this.StartConvertButton.Size = new System.Drawing.Size(91, 23);
+            this.StartConvertButton.TabIndex = 7;
+            this.StartConvertButton.Text = "Start Convert";
+            this.StartConvertButton.UseVisualStyleBackColor = true;
+            this.StartConvertButton.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(440, 93);
+            this.textBox4.Location = new System.Drawing.Point(612, 120);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(75, 20);
+            this.textBox4.Size = new System.Drawing.Size(91, 20);
             this.textBox4.TabIndex = 8;
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(440, 119);
+            this.textBox5.Location = new System.Drawing.Point(612, 156);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(75, 20);
+            this.textBox5.Size = new System.Drawing.Size(91, 20);
             this.textBox5.TabIndex = 9;
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(440, 145);
+            this.textBox6.Location = new System.Drawing.Point(612, 180);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(75, 20);
+            this.textBox6.Size = new System.Drawing.Size(91, 20);
             this.textBox6.TabIndex = 10;
             // 
             // logBox
             // 
-            this.logBox.Location = new System.Drawing.Point(16, 119);
+            this.logBox.Location = new System.Drawing.Point(12, 156);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logBox.Size = new System.Drawing.Size(335, 126);
             this.logBox.TabIndex = 11;
             // 
-            // Form1
+            // MCToFCENamePathDialog
+            // 
+            this.MCToFCENamePathDialog.FileName = "MCNamesToFCENames.xml";
+            this.MCToFCENamePathDialog.Filter = "XML files|*.xml|All files|*.*";
+            // 
+            // FortressCraftTerrainDataPathInput
+            // 
+            this.FortressCraftTerrainDataPathInput.Location = new System.Drawing.Point(120, 93);
+            this.FortressCraftTerrainDataPathInput.Name = "FortressCraftTerrainDataPathInput";
+            this.FortressCraftTerrainDataPathInput.Size = new System.Drawing.Size(486, 20);
+            this.FortressCraftTerrainDataPathInput.TabIndex = 12;
+            this.FortressCraftTerrainDataPathInput.Text = "C:\\Users\\Ultimate\\AppData\\LocalLow\\ProjectorGames\\FortressCraft\\Worlds\\MC Convert" +
+    "ed 2\\";
+            // 
+            // FortressCraftTerrainDataPathDialog
+            // 
+            this.FortressCraftTerrainDataPathDialog.FileName = "TerrainData.xml";
+            this.FortressCraftTerrainDataPathDialog.Filter = "XML files|*.xml|All files|*.*";
+            // 
+            // FortressCraftWorldPathDialog
+            // 
+            this.FortressCraftWorldPathDialog.DefaultExt = "dat";
+            this.FortressCraftWorldPathDialog.Filter = "World files|world.dat";
+            // 
+            // MinecraftWorldPathDialog
+            // 
+            this.MinecraftWorldPathDialog.DefaultExt = "dat";
+            this.MinecraftWorldPathDialog.Filter = "Level files|level.dat|All files|*.*";
+            // 
+            // FortressCraftTerrainDataPathButton
+            // 
+            this.FortressCraftTerrainDataPathButton.Location = new System.Drawing.Point(612, 90);
+            this.FortressCraftTerrainDataPathButton.Name = "FortressCraftTerrainDataPathButton";
+            this.FortressCraftTerrainDataPathButton.Size = new System.Drawing.Size(91, 23);
+            this.FortressCraftTerrainDataPathButton.TabIndex = 13;
+            this.FortressCraftTerrainDataPathButton.Text = "Select File";
+            this.FortressCraftTerrainDataPathButton.UseVisualStyleBackColor = true;
+            this.FortressCraftTerrainDataPathButton.Click += new System.EventHandler(this.FortressCraftTerrainDataPathButton_Click);
+            // 
+            // MCToFCEForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(530, 257);
+            this.ClientSize = new System.Drawing.Size(715, 294);
+            this.Controls.Add(this.FortressCraftTerrainDataPathButton);
+            this.Controls.Add(this.FortressCraftTerrainDataPathInput);
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.StartConvertButton);
+            this.Controls.Add(this.FortressCraftWorldPathButton);
+            this.Controls.Add(this.MinecraftWorldPathButton);
+            this.Controls.Add(this.FortressCraftWorldPathInput);
+            this.Controls.Add(this.MinecraftWorldPathInput);
+            this.Controls.Add(this.MCToFCENamePathButton);
+            this.Controls.Add(this.MCToFCENamePathInput);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MCToFCEForm";
+            this.Text = "Minecraft to FortressCraft Evolved World Converter";
+            this.Load += new System.EventHandler(this.MCToFCEForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,17 +222,23 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox MCToFCENamePathInput;
+        private System.Windows.Forms.Button MCToFCENamePathButton;
+        private System.Windows.Forms.TextBox MinecraftWorldPathInput;
+        private System.Windows.Forms.TextBox FortressCraftWorldPathInput;
+        private System.Windows.Forms.Button MinecraftWorldPathButton;
+        private System.Windows.Forms.Button FortressCraftWorldPathButton;
+        private System.Windows.Forms.Button StartConvertButton;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TextBox logBox;
+        private System.Windows.Forms.OpenFileDialog MCToFCENamePathDialog;
+        private System.Windows.Forms.TextBox FortressCraftTerrainDataPathInput;
+        private System.Windows.Forms.OpenFileDialog FortressCraftTerrainDataPathDialog;
+        private System.Windows.Forms.OpenFileDialog FortressCraftWorldPathDialog;
+        private System.Windows.Forms.OpenFileDialog MinecraftWorldPathDialog;
+        private System.Windows.Forms.Button FortressCraftTerrainDataPathButton;
     }
 }
 
