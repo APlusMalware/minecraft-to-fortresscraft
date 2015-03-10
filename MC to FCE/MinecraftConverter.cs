@@ -38,15 +38,17 @@ namespace MC_to_FCE
 
         }
 
-        public void LoadNameMap(String filePath)
+        public List<String> LoadNameMap(String filePath)
         {
+            XmlDocument DocumentMaps = new XmlDocument();
+            ICacheTable<BlockInfo> mcBlockTable = Substrate.BlockInfo.BlockTable;
             Dictionary<String, String> mcNameToFCEName = new Dictionary<String, String>();
-            var DocumentMaps = new XmlDocument();
+            Dictionary<String, UInt16> mcNameToId = new Dictionary<String, UInt16>();
+            List<String> unfoundNames = new List<String>();
+
             DocumentMaps.Load(filePath);
             XmlNodeList elementsByTagName = DocumentMaps.GetElementsByTagName("Blocks");
 
-            var mcBlockTable = Substrate.BlockInfo.BlockTable;
-            Dictionary<String, UInt16> mcNameToId = new Dictionary<String, UInt16>();
             foreach (var mcBlock in mcBlockTable)
             {
                 if (mcBlock.Registered)
@@ -60,11 +62,18 @@ namespace MC_to_FCE
                 foreach (XmlNode mcName in root.ChildNodes)
                 {
                     String mcCleanName = mcName.Name.Replace("_", "");
-                    if (!mcNameToId.ContainsKey(mcCleanName))
-                        continue;
-
-                    UInt32 mcId = mcNameToId[mcCleanName];
-                    UInt32 mcIdShifted = mcId << 16;
+                    UInt16 mcId;
+                    UInt32 mcIdShifted;
+                    if (!mcNameToId.TryGetValue(mcCleanName, out mcId))
+                    {
+                        // If the name isn't found, try to parse it as an id number directly
+                        if (!UInt16.TryParse(mcCleanName, out mcId))
+                        {
+                            unfoundNames.Add(mcName.Name);
+                            continue;
+                        }
+                    }
+                    mcIdShifted = (UInt32)mcId << 16;
 
                     foreach(XmlNode mcValue in mcName.ChildNodes)
                     {
@@ -96,6 +105,7 @@ namespace MC_to_FCE
                     }
                 }
             }
+            return unfoundNames;
         }
 
         public World ConvertWorld(String mcDirectory)
@@ -147,7 +157,6 @@ namespace MC_to_FCE
             }
 
             World fceWorld = new World(worldName, _fceDirectory);
-
             startSaveThread(fceWorld);
 
             foreach (ChunkRef chunk in chunkManager)

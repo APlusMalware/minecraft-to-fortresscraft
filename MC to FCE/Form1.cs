@@ -31,7 +31,9 @@ namespace MC_to_FCE
             CubeType.LoadFCETerrainData();
             _converter = new MinecraftConverter(textBox3.Text);
             Int64 startConvertTime = DateTime.Now.Ticks;
-            _converter.LoadNameMap(@"r:\documents\visual studio 2013\Projects\MC to FCE\MC to FCE\MCNamesToFCENames.xml");
+            List<String> unfoundNames = _converter.LoadNameMap(@"r:\documents\visual studio 2013\Projects\MC to FCE\MC to FCE\MCNamesToFCENames.xml");
+            foreach (String name in unfoundNames)
+                logBox.AppendText("Minecraft block name \"" + name + "\" was not found. /n");
 
             world = _converter.ConvertWorld(textBox2.Text);
             Int64 endConvertTime = DateTime.Now.Ticks;
@@ -42,7 +44,7 @@ namespace MC_to_FCE
             textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
 
             foreach (String fileName in failed)
-                logBox.AppendText(failed + "/n");
+                logBox.AppendText(fileName + "/n");
 
             world.Zip();
             Int64 endZipTime = DateTime.Now.Ticks;
