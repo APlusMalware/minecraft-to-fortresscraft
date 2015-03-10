@@ -178,7 +178,7 @@
   <TORCH>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Torch</FCEName>
+      <FCEName>Air</FCEName>
       <FCEData>0</FCEData>
     </MCValue>
   </TORCH>
