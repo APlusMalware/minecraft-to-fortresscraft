@@ -69,23 +69,6 @@ namespace MC_to_FCE
             FortressCraftTerrainDataPathDialog.InitialDirectory = FortressCraftTerrainDataPathInput.Text;
         }
 
-        private void somemethod()
-        {
-            String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName;
-            String mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName;
-            String mcNamesToFCENamesDirectory = MCToFCENamePathInput.Text;
-            String terainDataPath = FortressCraftTerrainDataPathInput.Text;
-
-            world = new World("New World 2", FortressCraftWorldPathInput.Text);
-            CubeType.LoadFCETerrainData(terainDataPath);
-            Int64 endConvertTime = DateTime.Now.Ticks;
-            FlagPass.FixCubeFlags(world);
-            Int64 endFlagTime = DateTime.Now.Ticks;
-            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
-        }
-
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + @"\";
