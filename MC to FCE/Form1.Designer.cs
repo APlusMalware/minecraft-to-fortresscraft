@@ -120,7 +120,7 @@
             this.StartConvertButton.TabIndex = 8;
             this.StartConvertButton.Text = "Start Convert";
             this.StartConvertButton.UseVisualStyleBackColor = true;
-            this.StartConvertButton.Click += new System.EventHandler(this.button4_Click);
+            this.StartConvertButton.Click += new System.EventHandler(this.StartConvertButton_click);
             // 
             // logBox
             // 

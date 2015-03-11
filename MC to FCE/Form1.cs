@@ -16,7 +16,11 @@ namespace MC_to_FCE
     public partial class MCToFCEForm : Form
     {
         private MinecraftConverter _converter;
-        private World world; 
+        private World world;
+        private String _fceDirectory;
+        private String _mcDirectory;
+        private String _mceNamesToFCENamesPath;
+        private String _terainDataPath;
 
         public MCToFCEForm()
         {
@@ -69,40 +73,48 @@ namespace MC_to_FCE
             FortressCraftTerrainDataPathDialog.InitialDirectory = FortressCraftTerrainDataPathInput.Text;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void StartConvertButton_click(object sender, EventArgs e)
         {
-            String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + @"\";
-            String mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + @"\";
-            String mcNamesToFCENamesDirectory = MCToFCENamePathInput.Text;
-            String terainDataPath = FortressCraftTerrainDataPathInput.Text;
-            if (Directory.Exists(fceDirectory + "Segments"))
-                Directory.Delete(fceDirectory + "Segments", true);
+            StartConvertButton.Enabled = false;
+            var progress = new Progress<String>(s => logBox.AppendText(s));
+            await Task.Factory.StartNew(() => startConvert(progress));
+            StartConvertButton.Enabled = true;
+        }
 
-            logBox.AppendText("Loading data files...\n");
-            CubeType.LoadFCETerrainData(terainDataPath);
-            _converter = new MinecraftConverter(fceDirectory);
-            List<String> unfoundNames = _converter.LoadNameMap(mcNamesToFCENamesDirectory);
+        private void startConvert(IProgress<String> progress)
+        {
+            _fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + @"\";
+            _mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + @"\";
+            _mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
+            _terainDataPath = FortressCraftTerrainDataPathInput.Text;
+            if (Directory.Exists(_fceDirectory + "Segments"))
+                Directory.Delete(_fceDirectory + "Segments", true);
+
+            progress.Report("Loading data files...\n");
+            CubeType.LoadFCETerrainData(_terainDataPath);
+            _converter = new MinecraftConverter(_fceDirectory);
+            List<String> unfoundNames = _converter.LoadNameMap(_mceNamesToFCENamesPath);
             foreach (String name in unfoundNames)
-                logBox.AppendText("Minecraft block name \"" + name + "\" was not found. \n");
+                progress.Report("Minecraft block name \"" + name + "\" was not found. \n");
+            progress.Report("Starting world conversion... (Step 1/3)\n");
 
-            logBox.AppendText("Starting world conversion... (Step 1/3)\n");
             Int64 startConvertTime = DateTime.Now.Ticks;
-            world = _converter.ConvertWorld(mcDirectory);
+            world = _converter.ConvertWorld(_mcDirectory);
             Int64 endConvertTime = DateTime.Now.Ticks;
-            logBox.AppendText("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
+            progress.Report("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
 
             List<String> failed = FlagPass.FixCubeFlags(world);
             Int64 endFlagTime = DateTime.Now.Ticks;
             if (failed.Count > 0)
-                logBox.AppendText("Could not fix the following segment files: \n");
+                progress.Report("Could not fix the following segment files: \n");
             foreach (String fileName in failed)
-                logBox.AppendText(fileName + "\n");
-            logBox.AppendText("Flag pass finished in " + ((endFlagTime - endConvertTime) / 10000000D) + " seconds. Beginning world zip... (Step 3/3)\n");
+                progress.Report(fileName + "\n");
+            progress.Report("Flag pass finished in " + ((endFlagTime - endConvertTime) / 10000000D) + " seconds. Beginning world zip... (Step 3/3)\n");
 
             world.Zip();
             Int64 endZipTime = DateTime.Now.Ticks;
-            logBox.AppendText("World zip finished in " + ((endZipTime - endFlagTime) / 10000000D) + " seconds.\n");
-            logBox.AppendText("Conversion complete!\n");
+            progress.Report("World zip finished in " + ((endZipTime - endFlagTime) / 10000000D) + " seconds.\n");
+            progress.Report("Conversion complete!\n");
         }
     }
 }
