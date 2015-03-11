@@ -78,27 +78,31 @@ namespace MC_to_FCE
             if (Directory.Exists(fceDirectory + "Segments"))
                 Directory.Delete(fceDirectory + "Segments", true);
 
+            logBox.AppendText("Loading data files...\n");
             CubeType.LoadFCETerrainData(terainDataPath);
             _converter = new MinecraftConverter(fceDirectory);
             List<String> unfoundNames = _converter.LoadNameMap(mcNamesToFCENamesDirectory);
             foreach (String name in unfoundNames)
-                logBox.AppendText("Minecraft block name \"" + name + "\" was not found. /n");
+                logBox.AppendText("Minecraft block name \"" + name + "\" was not found. \n");
 
+            logBox.AppendText("Starting world conversion... (Step 1/3)\n");
             Int64 startConvertTime = DateTime.Now.Ticks;
             world = _converter.ConvertWorld(mcDirectory);
             Int64 endConvertTime = DateTime.Now.Ticks;
-            textBox4.Text = ((endConvertTime - startConvertTime) / 10000000D).ToString();
+            logBox.AppendText("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
 
             List<String> failed = FlagPass.FixCubeFlags(world);
             Int64 endFlagTime = DateTime.Now.Ticks;
-            textBox5.Text = ((endFlagTime - endConvertTime) / 10000000D).ToString();
-
+            if (failed.Count > 0)
+                logBox.AppendText("Could not fix the following segment files: \n");
             foreach (String fileName in failed)
-                logBox.AppendText(fileName + "/n");
+                logBox.AppendText(fileName + "\n");
+            logBox.AppendText("Flag pass finished in " + ((endFlagTime - endConvertTime) / 10000000D) + " seconds. Beginning world zip... (Step 3/3)\n");
 
             world.Zip();
             Int64 endZipTime = DateTime.Now.Ticks;
-            textBox6.Text = ((endZipTime - endFlagTime) / 10000000D).ToString();
+            logBox.AppendText("World zip finished in " + ((endZipTime - endFlagTime) / 10000000D) + " seconds.\n");
+            logBox.AppendText("Conversion complete!\n");
         }
     }
 }
