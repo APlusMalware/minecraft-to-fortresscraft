@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MC to FCE")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Minecraft to FortressCraft Evolved Converter")]
+[assembly: AssemblyDescription("Converts a Minecraft world to a FortressCraft Evolved wold")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MC to FCE")]
+[assembly: AssemblyProduct("Minecraft to FortressCraft Evolved")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
