@@ -1,11 +1,6 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,7 +15,7 @@ namespace MC_to_FCE
         private String _fceDirectory;
         private String _mcDirectory;
         private String _mceNamesToFCENamesPath;
-        private String _terainDataPath;
+        private String _terrainDataPath;
 
         public MCToFCEForm()
         {
@@ -62,19 +57,38 @@ namespace MC_to_FCE
 
         private void MCToFCEForm_Load(object sender, EventArgs e)
         {
-            MCToFCENamePathInput.Text = Path.Combine(Directory.GetCurrentDirectory(), "MCNamesToFCENames.xml");
-            MinecraftWorldPathInput.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft", "saves");
             FortressCraftWorldPathInput.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", "ProjectorGames", "FortressCraft", "Worlds");
+            MinecraftWorldPathInput.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft", "saves");
+            MCToFCENamePathInput.Text = Path.Combine(Directory.GetCurrentDirectory(), "MCNamesToFCENames.xml");
             FortressCraftTerrainDataPathInput.Text = Path.Combine((String)Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 254200", "InstallLocation", null), @"32\Default\Data", @"TerrainData.xml");
 
-            MCToFCENamePathDialog.InitialDirectory = MCToFCENamePathInput.Text;
-            MinecraftWorldPathDialog.InitialDirectory = MinecraftWorldPathInput.Text;
             FortressCraftWorldPathDialog.InitialDirectory = FortressCraftWorldPathInput.Text;
-            FortressCraftTerrainDataPathDialog.InitialDirectory = FortressCraftTerrainDataPathInput.Text;
+
+            MinecraftWorldPathDialog.InitialDirectory = MinecraftWorldPathInput.Text;
+
+            MCToFCENamePathDialog.InitialDirectory = Directory.GetParent(MCToFCENamePathInput.Text).FullName;
+            MCToFCENamePathDialog.FileName = Path.GetFileName(MCToFCENamePathInput.Text);
+
+            FortressCraftTerrainDataPathDialog.InitialDirectory = Directory.GetParent(FortressCraftTerrainDataPathInput.Text).FullName;
+            FortressCraftTerrainDataPathDialog.FileName = Path.GetFileName(FortressCraftTerrainDataPathInput.Text);
         }
 
         private async void StartConvertButton_click(object sender, EventArgs e)
         {
+            _fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
+            _mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
+            _mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
+            if (!File.Exists(_mceNamesToFCENamesPath))
+            {
+                MessageBox.Show("The specified Cube Mapping file could not be found.");
+                return;
+            }
+            _terrainDataPath = FortressCraftTerrainDataPathInput.Text;
+            if (!File.Exists(_terrainDataPath))
+            {
+                MessageBox.Show("The specified Terrain Data file could not be found.");
+                return;
+            }
             StartConvertButton.Enabled = false;
             var progress = new Progress<String>(s => logBox.AppendText(s));
             await Task.Factory.StartNew(() => startConvert(progress));
@@ -83,15 +97,11 @@ namespace MC_to_FCE
 
         private void startConvert(IProgress<String> progress)
         {
-            _fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + @"\";
-            _mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + @"\";
-            _mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
-            _terainDataPath = FortressCraftTerrainDataPathInput.Text;
             if (Directory.Exists(_fceDirectory + "Segments"))
                 Directory.Delete(_fceDirectory + "Segments", true);
 
             progress.Report("Loading data files...\n");
-            CubeType.LoadFCETerrainData(_terainDataPath);
+            CubeType.LoadFCETerrainData(_terrainDataPath);
             _converter = new MinecraftConverter(_fceDirectory);
             List<String> unfoundNames = _converter.LoadNameMap(_mceNamesToFCENamesPath);
             foreach (String name in unfoundNames)
@@ -108,7 +118,7 @@ namespace MC_to_FCE
             if (failed.Count > 0)
                 progress.Report("Could not fix the following segment files: \n");
             foreach (String fileName in failed)
-                progress.Report(fileName + "\n");
+                progress.Report(Path.GetFileName(fileName) + "\n");
             progress.Report("Flag pass finished in " + ((endFlagTime - endConvertTime) / 10000000D) + " seconds. Beginning world zip... (Step 3/3)\n");
 
             world.Zip();
