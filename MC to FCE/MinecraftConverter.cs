@@ -28,12 +28,12 @@ namespace MC_to_FCE
         private CancellationToken _token;
 
 
-        public MinecraftConverter(String fceDirectory)
+        public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
         {
             mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
             unknownBlocks = new Dictionary<UInt16, String>();
             _fceDirectory = fceDirectory;
-            fceCubes = CubeType.Cubes;
+            fceCubes = cubeTypes;
             _saveQueue = new ConcurrentQueue<Segment>();
 
         }
@@ -196,7 +196,7 @@ namespace MC_to_FCE
                                 }
                                 UInt16 fceType = (UInt16)(fceIdData >> 16);
                                 UInt16 fceData = (UInt16)(fceIdData);
-                                array[z, y, x] = new Cube(fceType, 0, fceData, 13);
+                                array[z, y, x] = new Cube(fceCubes[fceType], 0, fceData, 13);
                             }
                         }
                     }
@@ -246,37 +246,37 @@ namespace MC_to_FCE
                             if (k < 15)
                             {
                                 north = cubeMap[i, j, k + 1];
-                                if (CubeType.Cubes[north.Type].IsOpen)
+                                if (north.Type.IsOpen)
                                     flags += 0x08;
                             }
                             if (k > 0)
                             {
                                 south = cubeMap[i, j, k - 1];
-                                if (CubeType.Cubes[south.Type].IsOpen)
+                                if (south.Type.IsOpen)
                                     flags += 0x04;
                             }
                             if (i < 15)
                             {
                                 east = cubeMap[i + 1, j, k];
-                                if (CubeType.Cubes[east.Type].IsOpen)
+                                if (east.Type.IsOpen)
                                     flags += 0x10;
                             }
                             if (i > 0)
                             {
                                 west = cubeMap[i - 1, j, k];
-                                if (CubeType.Cubes[west.Type].IsOpen)
+                                if (west.Type.IsOpen)
                                     flags += 0x20;
                             }
                             if (j < 15)
                             {
                                 above = cubeMap[i, j + 1, k];
-                                if (CubeType.Cubes[above.Type].IsOpen)
+                                if (above.Type.IsOpen)
                                     flags += 0x01;
                             }
                             if (j > 0)
                             {
                                 below = cubeMap[i, j - 1, k];
-                                if (CubeType.Cubes[below.Type].IsOpen)
+                                if (below.Type.IsOpen)
                                     flags += 0x02;
                             }
 

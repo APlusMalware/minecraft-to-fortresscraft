@@ -101,8 +101,9 @@ namespace MC_to_FCE
                 Directory.Delete(_fceDirectory + "Segments", true);
 
             progress.Report("Loading data files...\n");
-            CubeType.LoadFCETerrainData(_terrainDataPath);
-            _converter = new MinecraftConverter(_fceDirectory);
+            IDictionary<UInt16, CubeType> cubeTypes = CubeType.LoadFromFile(_terrainDataPath);
+			Segment.CubeList = cubeTypes;
+            _converter = new MinecraftConverter(_fceDirectory, cubeTypes);
             List<String> unfoundNames = _converter.LoadNameMap(_mceNamesToFCENamesPath);
             foreach (String name in unfoundNames)
                 progress.Report("Minecraft block name \"" + name + "\" was not found. \n");
