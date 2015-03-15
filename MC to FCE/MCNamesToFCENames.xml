@@ -199,7 +199,7 @@
   <DIAMOND_BLOCK>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Crystal Deposit</FCEName>
+      <FCEName>Mithril Box</FCEName>
       <FCEData>0</FCEData>
     </MCValue>
   </DIAMOND_BLOCK>
@@ -248,14 +248,14 @@
   <SNOW>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Snow</FCEName>
-      <FCEData>0</FCEData>
+      <FCEName>White Canvas</FCEName>
+      <FCEData>FFF</FCEData>
     </MCValue>
   </SNOW>
   <SNOW_BLOCK>
     <MCValue>
       <Value>-1</Value>
-      <FCEName>Sand</FCEName>
+      <FCEName>White Canvas</FCEName>
       <FCEData>FFF</FCEData>
     </MCValue>
   </SNOW_BLOCK>
