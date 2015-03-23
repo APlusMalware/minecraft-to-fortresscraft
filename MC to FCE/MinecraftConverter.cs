@@ -141,13 +141,13 @@ namespace MC_to_FCE
                 spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
                 spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
                 try
-                {
-                    // Try something to test for mc world type
-                    // Maybe this works? Don't know how the original code is supposed to work,
-                    // and it won't compile
-                    chunkManager.GetEnumerator();
+				{
+					// Try to test for mc world type
+					// Don't know how this is supposed to work, but it presumably throws an exception
+					// on a non-Anvil world.
+					chunkManager.Count<ChunkRef>();
 
-                    break;
+					break;
                 }
                 catch
                 {
