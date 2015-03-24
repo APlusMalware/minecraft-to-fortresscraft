@@ -210,7 +210,7 @@ namespace MC_to_FCE
                                             if (UnknownsMapToDetail)
                                             {
                                                 _unknownIdToDetailId.Add((UInt16)(block.ID), _detailBlockCount);
-                                                fceIdData = (UInt32)block.ID << 16;
+                                                fceIdData = (UInt32)_detailBlockCount << 16;
                                                 try
                                                 {
                                                     fceCubes.Add(_detailBlockCount, generateDetailBlock(_detailBlockCount));
@@ -229,13 +229,7 @@ namespace MC_to_FCE
                                 }
                                 UInt16 fceType = (UInt16)(fceIdData >> 16);
                                 UInt16 fceData = (UInt16)(fceIdData);
-                                try
-                                {
-                                    array[z, y, x] = new Cube(fceCubes[fceType], 0, fceData, 13);
-                                }
-                                catch
-                                {
-                                }
+                                array[z, y, x] = new Cube(fceCubes[fceType], 0, fceData, 13);
                             }
                         }
                     }
@@ -334,7 +328,7 @@ namespace MC_to_FCE
             segment.IsEmpty = empty;
             segment.HasFaces = !empty;
             segment.maCubeData = cubeMap;
-            cubeMap = null;
+            cubeMap = null;R:\Documents\Visual Studio 2013\Projects\MC to FCE\MC to FCE\LICENSE.txt
         }
 
         private void startSaveThread(World world)
