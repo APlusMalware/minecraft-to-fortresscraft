@@ -328,7 +328,7 @@ namespace MC_to_FCE
             segment.IsEmpty = empty;
             segment.HasFaces = !empty;
             segment.maCubeData = cubeMap;
-            cubeMap = null;R:\Documents\Visual Studio 2013\Projects\MC to FCE\MC to FCE\LICENSE.txt
+            cubeMap = null;
         }
 
         private void startSaveThread(World world)
