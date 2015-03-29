@@ -234,7 +234,7 @@ namespace MC_to_FCE
                         }
                     }
 
-                    segment.SetMappedCubeData(array);
+                    segment.CubeData = array;
 
                     fixInnerFlags(fceWorld, segment);
                     _segmentsLeft--;
@@ -265,7 +265,7 @@ namespace MC_to_FCE
 
         private void fixInnerFlags(World world, Segment segment)
         {
-            Cube[,,] cubeMap = segment.GetMappedCubeData();
+            Cube[,,] cubeMap = segment.CubeData;
             Cube north, south, east, west, above, below;
             Boolean empty = true;
             for (Byte i = 0; i < 16; i++)
@@ -327,7 +327,7 @@ namespace MC_to_FCE
 
             segment.IsEmpty = empty;
             segment.HasFaces = !empty;
-            segment.maCubeData = cubeMap;
+            segment.CubeData = cubeMap;
             cubeMap = null;
         }
 

@@ -97,7 +97,7 @@ namespace MC_to_FCE
 
         private void fixOuterFlags(World world, Segment segment)
         {
-            Cube[,,] cubeMap = segment.GetMappedCubeData();
+            Cube[,,] cubeMap = segment.CubeData;
 
             Segment north = null;
             Segment south = null;
@@ -105,7 +105,14 @@ namespace MC_to_FCE
             Segment west = null;
             Segment above = null;
             Segment below = null;
-            for (Byte i = 0; i < 16; i++)
+
+			Boolean northChecked = false;
+			Boolean southChecked = false;
+			Boolean eastChecked = false;
+			Boolean westChecked = false;
+			Boolean aboveChecked = false;
+			Boolean belowChecked = false;
+			for (Byte i = 0; i < 16; i++)
             {
                 for (Byte j = 0; j < 16; j++)
                 {
@@ -118,39 +125,56 @@ namespace MC_to_FCE
 
                             if (k == 15)
                             {
-                                north = north ?? world.GetSegment(segment.X, segment.Y, segment.Z + 16);
-                                
-                                if (north.maCubeData[i, j, 0].Type.IsOpen)
+								if (!northChecked)
+									north = north ?? world.GetSegment(segment.X, segment.Y, segment.Z + 16);
+								northChecked = true;
+
+								if (north != null && north.CubeData[i, j, 0].Type.IsOpen)
                                     flags += 0x08;
                             }
                             else if (k == 0)
                             {
-                                south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 16);
-                                if (south.maCubeData[i, j, 15].Type.IsOpen)
+								if (!southChecked)
+									south = south ?? world.GetSegment(segment.X, segment.Y, segment.Z - 16);
+								southChecked = true;
+
+								if (south != null && south.CubeData[i, j, 15].Type.IsOpen)
                                     flags += 0x04;
                             }
                             if (i == 15)
                             {
-                                east = east ?? world.GetSegment(segment.X + 16, segment.Y, segment.Z);
-                                if (east.maCubeData[0, j, k].Type.IsOpen)
+								if (!eastChecked)
+									east = east ?? world.GetSegment(segment.X + 16, segment.Y, segment.Z);
+								eastChecked = true;
+
+								if (east != null && east.CubeData[0, j, k].Type.IsOpen)
                                     flags += 0x10;
                             }
                             else if (i == 0)
                             {
-                                west = west ?? world.GetSegment(segment.X - 16, segment.Y, segment.Z);
-                                if (west.maCubeData[15, j, k].Type.IsOpen)
+								if (!westChecked)
+									west = west ?? world.GetSegment(segment.X - 16, segment.Y, segment.Z);
+								westChecked = true;
+
+								if (west != null && west.CubeData[15, j, k].Type.IsOpen)
                                     flags += 0x20;
                             }
                             if (j == 15)
                             {
-                                above = above ?? world.GetSegment(segment.X, segment.Y + 16, segment.Z);
-                                if (above.maCubeData[i, 0, k].Type.IsOpen)
+								if (!aboveChecked)
+									above = above ?? world.GetSegment(segment.X, segment.Y + 16, segment.Z);
+								aboveChecked = true;
+
+								if (above != null && above.CubeData[i, 0, k].Type.IsOpen)
                                     flags += 0x01;
                             }
                             else if (j == 0)
                             {
-                                below = below ?? world.GetSegment(segment.X, segment.Y - 16, segment.Z);
-                                if (below.maCubeData[i, 15, k].Type.IsOpen)
+								if (!belowChecked)
+									below = below ?? world.GetSegment(segment.X, segment.Y - 16, segment.Z);
+								belowChecked = true;
+
+								if (below != null && below.CubeData[i, 15, k].Type.IsOpen)
                                     flags += 0x02;
                             }
 
@@ -162,7 +186,7 @@ namespace MC_to_FCE
                 }
             }
 
-            segment.maCubeData = cubeMap;
+            segment.CubeData = cubeMap;
             cubeMap = null;
         }
     }
