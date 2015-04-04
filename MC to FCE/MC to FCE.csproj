@@ -77,7 +77,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FlagPass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

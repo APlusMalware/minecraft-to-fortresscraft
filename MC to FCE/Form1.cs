@@ -116,8 +116,8 @@ namespace MC_to_FCE
 			world = _converter.ConvertWorld(_mcDirectory);
 			Int64 endConvertTime = DateTime.Now.Ticks;
 			progress.Report("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
-
-			List<String> failed = FlagPass.FixCubeFlags(world);
+			
+			List<String> failed = FlagPass.FixWorld(world);
 			Int64 endFlagTime = DateTime.Now.Ticks;
 			if (failed.Count > 0)
 				progress.Report("Could not fix the following segment files: \n");

@@ -26,8 +26,8 @@ namespace MC_to_FCE
         private Int64 _totalSegments;
         private Int64 _segmentsLeft;
 
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private ConcurrentQueue<Segment> _saveQueue;
+		private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+		private ConcurrentQueue<Segment> _saveQueue;
         private Task _saveTask;
         private CancellationToken _token;
 
@@ -236,7 +236,6 @@ namespace MC_to_FCE
 
                     segment.CubeData = array;
 
-                    fixInnerFlags(fceWorld, segment);
                     _segmentsLeft--;
 
                     _saveQueue.Enqueue(segment);
@@ -263,77 +262,9 @@ namespace MC_to_FCE
                 Directory.CreateDirectory(path);
         }
 
-        private void fixInnerFlags(World world, Segment segment)
-        {
-            Cube[,,] cubeMap = segment.CubeData;
-            Cube north, south, east, west, above, below;
-            Boolean empty = true;
-            for (Byte i = 0; i < 16; i++)
-            {
-                for (Byte j = 0; j < 16; j++)
-                {
-                    for (Byte k = 0; k < 16; k++)
-                    {
-                        Cube cube = cubeMap[i, j, k];
-                        if (!cube.IsAir())
-                        {
-                            Byte flags = 0;
-                            empty = false;
-
-                            if (k < 15)
-                            {
-                                north = cubeMap[i, j, k + 1];
-                                if (north.Type.IsOpen)
-                                    flags += 0x08;
-                            }
-                            if (k > 0)
-                            {
-                                south = cubeMap[i, j, k - 1];
-                                if (south.Type.IsOpen)
-                                    flags += 0x04;
-                            }
-                            if (i < 15)
-                            {
-                                east = cubeMap[i + 1, j, k];
-                                if (east.Type.IsOpen)
-                                    flags += 0x10;
-                            }
-                            if (i > 0)
-                            {
-                                west = cubeMap[i - 1, j, k];
-                                if (west.Type.IsOpen)
-                                    flags += 0x20;
-                            }
-                            if (j < 15)
-                            {
-                                above = cubeMap[i, j + 1, k];
-                                if (above.Type.IsOpen)
-                                    flags += 0x01;
-                            }
-                            if (j > 0)
-                            {
-                                below = cubeMap[i, j - 1, k];
-                                if (below.Type.IsOpen)
-                                    flags += 0x02;
-                            }
-
-                            cube.Flags = flags;
-                        }
-                        else
-                            cube.Flags = 0;
-                    }
-                }
-            }
-
-            segment.IsEmpty = empty;
-            segment.HasFaces = !empty;
-            segment.CubeData = cubeMap;
-            cubeMap = null;
-        }
-
         private void startSaveThread(World world)
-        {
-            ConcurrentQueue<Segment> queue = _saveQueue;
+		{
+			ConcurrentQueue<Segment> queue = _saveQueue;
             _token = _tokenSource.Token;
             _saveTask = Task.Factory.StartNew(() =>
             {
