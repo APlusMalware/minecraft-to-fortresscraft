@@ -76,10 +76,14 @@ namespace MC_to_FCE
 
 		private async void StartConvertButton_click(object sender, EventArgs e)
 		{
+			Progress<String> progress = new Progress<String>(s => logBox.AppendText(s));
+			logBox.AppendText("Preparing to convert...\n");
+
 			_fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
 			_mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
 			_mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
 			_mapUnknownsToDetailBlock = MapUnknownBlocksToDetailBlockInput.Checked;
+
 			if (!File.Exists(_mceNamesToFCENamesPath))
 			{
 				MessageBox.Show("The specified Cube Mapping file could not be found.");
@@ -92,7 +96,6 @@ namespace MC_to_FCE
 				return;
 			}
 			StartConvertButton.Enabled = false;
-			var progress = new Progress<String>(s => logBox.AppendText(s));
 			await Task.Factory.StartNew(() => startConvert(progress));
 			StartConvertButton.Enabled = true;
 		}
@@ -100,9 +103,15 @@ namespace MC_to_FCE
 		private void startConvert(IProgress<String> progress)
 		{
 			if (Directory.Exists(_fceDirectory + "Segments"))
-				Directory.Delete(_fceDirectory + "Segments", true);
+			{
+				Parallel.ForEach(Directory.GetDirectories(_fceDirectory + "Segments"), (directory) =>
+				{
+					String[] parts = directory.Split('-');
+					if (parts[0] == "d")
+					Directory.Delete(directory, true);
+				});
+			}
 
-			progress.Report("Loading data files...\n");
 			IDictionary<UInt16, CubeType> cubeTypes = CubeType.LoadFromFile(_terrainDataPath);
 			Segment.CubeList = cubeTypes;
 			_converter = new MinecraftConverter(_fceDirectory, cubeTypes);
