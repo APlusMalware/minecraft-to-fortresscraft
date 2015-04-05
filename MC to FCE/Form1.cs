@@ -106,9 +106,23 @@ namespace MC_to_FCE
 			{
 				Parallel.ForEach(Directory.GetDirectories(_fceDirectory + "Segments"), (directory) =>
 				{
-					String[] parts = directory.Split('-');
-					if (parts[0] == "d")
-					Directory.Delete(directory, true);
+					String[] dashSeperated = directory.Split('-');
+					if (dashSeperated.Length == 4)
+					{
+						String[] slashSeperated = dashSeperated[0].Split('\\');
+						if (slashSeperated[slashSeperated.Length - 1] == "d")
+							Directory.Delete(directory, true);
+					}
+				});
+				Parallel.ForEach(Directory.GetFiles(_fceDirectory + "Segments"), (file) =>
+				{
+					String[] dashSeperated = file.Split('-');
+					if (dashSeperated.Length == 4)
+					{
+						String[] slashSeperated = dashSeperated[0].Split('\\');
+						if (slashSeperated[slashSeperated.Length - 1] == "d")
+							File.Delete(file);
+					}
 				});
 			}
 
