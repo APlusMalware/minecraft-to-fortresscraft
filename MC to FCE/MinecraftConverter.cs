@@ -229,7 +229,7 @@ namespace MC_to_FCE
                                 }
                                 UInt16 fceType = (UInt16)(fceIdData >> 16);
                                 UInt16 fceData = (UInt16)(fceIdData);
-                                array[z, y, x] = new Cube(fceCubes[fceType], 0, fceData, 13);
+                                array[z, y, x] = new Cube(fceType, 0, fceData, 13);
                             }
                         }
                     }
