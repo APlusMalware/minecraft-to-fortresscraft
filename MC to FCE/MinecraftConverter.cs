@@ -172,9 +172,8 @@ namespace MC_to_FCE
                 Int64 baseX = 4611686017890516944L + (Int64)(spawnOffsetX * 16);
                 // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
                 Int64 baseZ = 4611686017890516944L - (Int64)(spawnOffsetZ * 16);
-                for (Byte i = 0; i < (anvil ? 16 : 8); i++)
+                for (Int32 i = 0; i < (anvil ? 16 : 8); i++)
                 {
-
                     Int64 baseY = 4611686017890516944L + (Int64)(i * 16) + 48;
                     Segment segment = new Segment(fceWorld, baseX, baseY, baseZ);
                     Cube[,,] array = new Cube[16, 16, 16];
@@ -202,13 +201,7 @@ namespace MC_to_FCE
                                             {
                                                 _unknownIdToDetailId.Add((UInt16)(block.ID), _detailBlockCount);
                                                 fceIdData = (UInt32)_detailBlockCount << 16;
-                                                try
-                                                {
-                                                    fceCubes.Add(_detailBlockCount, generateDetailBlock(_detailBlockCount));
-                                                }
-                                                catch
-                                                {
-                                                }
+                                                fceCubes.Add(_detailBlockCount, generateDetailBlock(_detailBlockCount));
                                                 _detailBlockCount++;
                                             }
                                         }
@@ -226,12 +219,21 @@ namespace MC_to_FCE
                     }
 
                     segment.CubeData = array;
-
                     _segmentsLeft--;
-
                     _saveQueue.Enqueue(segment);
-                }
-            }
+				}
+				// Pad the area above the converted world with 11 blank segments to prevent world gen from occuring
+				// Possibly replace this in the future with simply shifting the world up 
+				for (Int32 i = (anvil ? 16 : 8); i < 27; i++)
+				{
+					// This is the center of the world. Why it's this is a complete mystery.
+					Int64 baseY = 4611686017890516944L + (Int64)(i * 16) + 48;
+					Segment padding = new Segment(fceWorld, baseX, baseY, baseZ);
+					padding.CubeData = Segment.GetBlankSegment().CubeData;
+					padding.IsEmpty = true;
+					_saveQueue.Enqueue(padding);
+				}
+			}
             Task.WaitAll(_saveTask);
 
             return fceWorld;
