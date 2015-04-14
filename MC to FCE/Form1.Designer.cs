@@ -47,7 +47,6 @@
 			this.FortressCraftWorldPathLabel = new System.Windows.Forms.Label();
 			this.MinecraftWorldPathLabel = new System.Windows.Forms.Label();
 			this.LogBoxLabel = new System.Windows.Forms.Label();
-			this.MapUnknownBlocksToDetailBlockInput = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// MCToFCENamePathLabel
@@ -213,22 +212,11 @@
 			this.LogBoxLabel.TabIndex = 14;
 			this.LogBoxLabel.Text = "Log";
 			// 
-			// MapUnknownBlocksToDetailBlockInput
-			// 
-			this.MapUnknownBlocksToDetailBlockInput.AutoSize = true;
-			this.MapUnknownBlocksToDetailBlockInput.Location = new System.Drawing.Point(307, 183);
-			this.MapUnknownBlocksToDetailBlockInput.Name = "MapUnknownBlocksToDetailBlockInput";
-			this.MapUnknownBlocksToDetailBlockInput.Size = new System.Drawing.Size(208, 17);
-			this.MapUnknownBlocksToDetailBlockInput.TabIndex = 15;
-			this.MapUnknownBlocksToDetailBlockInput.Text = "Map Unknown Blocks to Detail Blocks";
-			this.MapUnknownBlocksToDetailBlockInput.UseVisualStyleBackColor = true;
-			// 
 			// MCToFCEForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(624, 351);
-			this.Controls.Add(this.MapUnknownBlocksToDetailBlockInput);
 			this.Controls.Add(this.LogBoxLabel);
 			this.Controls.Add(this.MinecraftWorldPathLabel);
 			this.Controls.Add(this.FortressCraftWorldPathLabel);
@@ -273,7 +261,6 @@
 		private System.Windows.Forms.Label FortressCraftWorldPathLabel;
 		private System.Windows.Forms.Label MinecraftWorldPathLabel;
 		private System.Windows.Forms.Label LogBoxLabel;
-		private System.Windows.Forms.CheckBox MapUnknownBlocksToDetailBlockInput;
 	}
 }
 

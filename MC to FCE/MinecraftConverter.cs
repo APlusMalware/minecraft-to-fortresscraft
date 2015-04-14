@@ -18,9 +18,6 @@ namespace MC_to_FCE
         IDictionary<UInt16, CubeType> fceCubes;
         Dictionary<UInt32, UInt32> mcIdDataToFCEIdData;
         Dictionary<UInt16, String> unknownBlocks;
-        private Dictionary<UInt16, UInt16> _unknownIdToDetailId;
-        private UInt16 _detailBlockCount;
-        public Boolean UnknownsMapToDetail { get; set; }
         private String _fceDirectory;
 
         private Int64 _totalSegments;
@@ -36,12 +33,9 @@ namespace MC_to_FCE
         {
             mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
             unknownBlocks = new Dictionary<UInt16, String>();
-            _unknownIdToDetailId = new Dictionary<UInt16, UInt16>();
-            _detailBlockCount = CubeType.MIN_DETAIL_TYPEID;
             _fceDirectory = fceDirectory;
             fceCubes = cubeTypes;
             _saveQueue = new ConcurrentQueue<Segment>();
-            UnknownsMapToDetail = false;
 
         }
 
@@ -87,18 +81,35 @@ namespace MC_to_FCE
                         List<SByte> mcData = new List<SByte>();
                         String fceName = "";
                         UInt16 fceData = 0;
+						UInt16 fceId = 0;
                         foreach (XmlNode node in mcValue.ChildNodes)
                         {
                             if (node.Name == "Value")
                                 mcData.Add(SByte.Parse(node.InnerText));
-                            else if (node.Name == "FCEName")
+							else if (node.Name == "FCEId")
+								fceId = UInt16.Parse(node.InnerText);
+							else if (node.Name == "FCEName")
                                 fceName = node.InnerText;
-                            else if (node.Name == "FCEData")
+							else if (node.Name == "FCEData")
                                 fceData = UInt16.Parse(node.InnerText, NumberStyles.HexNumber);
-                        }
-                        CubeType cube = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
-                        if (cube == null)
-                            continue;
+						}
+
+						CubeType cube;
+						if (!fceCubes.TryGetValue(fceId, out cube))
+						{
+							if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
+							{
+								cube = generateDetailBlock(fceId);
+								fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cube));
+							}
+							else
+							{
+								cube = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
+								if (cube == null)
+									continue;
+							}
+						}
+
                         UInt32 fceIdData = (UInt32)cube.TypeId << 16 | fceData;
                         foreach (SByte mcDatum in mcData)
                         {
@@ -197,17 +208,6 @@ namespace MC_to_FCE
                                         if (!unknownBlocks.ContainsKey((UInt16)block.ID))
                                         {
                                             unknownBlocks.Add((UInt16)block.ID, block.Info.Name);
-                                            if (UnknownsMapToDetail)
-                                            {
-                                                _unknownIdToDetailId.Add((UInt16)(block.ID), _detailBlockCount);
-                                                fceIdData = (UInt32)_detailBlockCount << 16;
-                                                fceCubes.Add(_detailBlockCount, generateDetailBlock(_detailBlockCount));
-                                                _detailBlockCount++;
-                                            }
-                                        }
-                                        else if (UnknownsMapToDetail)
-                                        {
-                                            fceIdData = (UInt32)_unknownIdToDetailId[(UInt16)block.ID] << 16;
                                         }
                                     }
                                 }
@@ -241,7 +241,7 @@ namespace MC_to_FCE
 
         private CubeType generateDetailBlock(UInt16 typeId)
         {
-            return new CubeType(typeId, "Detail", null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, false, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
+            return new CubeType(typeId, "Detail" + typeId, null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, false, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
         }
 
         public void checkSubDir(World world, SegmentCoords coords)
