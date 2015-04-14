@@ -118,9 +118,6 @@ namespace MC_to_FCE
         public World ConvertWorld(String mcDirectory)
         {
             String segmentDirectory = Path.Combine(_fceDirectory, "Segments");
-            String worldName;
-            Boolean anvil = true;
-
             if (!Directory.Exists(_fceDirectory))
             {
                 Directory.CreateDirectory(_fceDirectory);
@@ -130,38 +127,32 @@ namespace MC_to_FCE
                 Directory.CreateDirectory(segmentDirectory);
             }
 
-            IChunkManager chunkManager;
-
-            Int32 spawnChunkX;
+			NbtWorld nbtWorld;
+			String worldName;
+			IChunkManager chunkManager;
+			Boolean anvil = true;
+			Int32 spawnChunkX;
             Int32 spawnChunkZ;
 
-            while (true)
+            nbtWorld = AnvilWorld.Open(mcDirectory);
+            worldName = nbtWorld.Level.LevelName;
+            chunkManager = nbtWorld.GetChunkManager();
+            try
             {
-                NbtWorld nbtWorld;
-                if (anvil)
-                    nbtWorld = AnvilWorld.Open(mcDirectory);
-                else
-                    nbtWorld = BetaWorld.Open(mcDirectory);
-                worldName = nbtWorld.Level.LevelName;
-                chunkManager = nbtWorld.GetChunkManager();
-
-                spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
-                spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
-                try
-                {
-                    // Try to test for mc world type
-                    // Don't know how this is supposed to work, but it presumably throws an exception
-                    // on a non-Anvil world.
-                    chunkManager.Count<ChunkRef>();
-
-                    break;
-                }
-                catch
-                {
-                    anvil = false;
-                    continue;
-                }
+                // Try to test for mc world type
+                // Don't know how this is supposed to work, but it presumably throws an exception
+                // on a non-Anvil world.
+                chunkManager.Count<ChunkRef>();
             }
+            catch
+			{
+				anvil = false;
+				nbtWorld = BetaWorld.Open(mcDirectory);
+				worldName = nbtWorld.Level.LevelName;
+				chunkManager = nbtWorld.GetChunkManager();
+			}	
+			spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
+			spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
 
             World fceWorld = new World(worldName, _fceDirectory);
             _totalSegments = chunkManager.LongCount() * 16;
