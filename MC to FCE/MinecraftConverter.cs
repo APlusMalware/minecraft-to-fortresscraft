@@ -16,8 +16,8 @@ namespace MC_to_FCE
     public class MinecraftConverter
     {
         IDictionary<UInt16, CubeType> fceCubes;
-        Dictionary<UInt32, UInt32> mcIdDataToFCEIdData;
-        Dictionary<UInt16, String> unknownBlocks;
+		Dictionary<UInt32, Cube> mcIdDataToFCECube;
+		Dictionary<UInt16, String> unknownBlocks;
         private String _fceDirectory;
 
         private Int64 _totalSegments;
@@ -31,7 +31,7 @@ namespace MC_to_FCE
 
         public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
         {
-            mcIdDataToFCEIdData = new Dictionary<UInt32, UInt32>();
+			mcIdDataToFCECube = new Dictionary<UInt32, Cube>();
             unknownBlocks = new Dictionary<UInt16, String>();
             _fceDirectory = fceDirectory;
             fceCubes = cubeTypes;
@@ -82,35 +82,69 @@ namespace MC_to_FCE
                         String fceName = "";
                         UInt16 fceData = 0;
 						UInt16 fceId = 0;
-                        foreach (XmlNode node in mcValue.ChildNodes)
+						Byte orientation = 0;
+						foreach (XmlNode node in mcValue.ChildNodes)
                         {
-                            if (node.Name == "Value")
-                                mcData.Add(SByte.Parse(node.InnerText));
+							if (node.Name == "Value")
+								mcData.Add(SByte.Parse(node.InnerText));
 							else if (node.Name == "FCEId")
 								fceId = UInt16.Parse(node.InnerText);
 							else if (node.Name == "FCEName")
-                                fceName = node.InnerText;
+								fceName = node.InnerText;
 							else if (node.Name == "FCEData")
-                                fceData = UInt16.Parse(node.InnerText, NumberStyles.HexNumber);
+								fceData = UInt16.Parse(node.InnerText, NumberStyles.HexNumber);
+							else if (node.Name == "Orientation")
+							{
+								Char a = node.InnerText[0];
+								Char b = node.InnerText[1];
+								switch (a)
+								{
+									case 'N':
+									case 'n':
+										orientation = Cube.NORTH_FACE;
+										break;
+									case 'S':
+									case 's':
+										orientation = Cube.SOUTH_FACE;
+										break;
+									case 'E':
+									case 'e':
+										orientation = Cube.EAST_FACE;
+										break;
+									case 'W':
+									case 'w':
+										orientation = Cube.WEST_FACE;
+										break;
+									case 'A':
+									case 'a':
+										orientation = Cube.ABOVE_FACE;
+										break;
+									case 'B':
+									case 'b':
+										orientation = Cube.BELOW_FACE;
+										break;
+								}
+								orientation += (Byte)(Byte.Parse(b.ToString()) << 6);
+							}
 						}
 
-						CubeType cube;
-						if (!fceCubes.TryGetValue(fceId, out cube))
+						CubeType cubeType;
+						if (!fceCubes.TryGetValue(fceId, out cubeType))
 						{
 							if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
 							{
-								cube = generateDetailBlock(fceId);
-								fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cube));
+								cubeType = generateDetailBlock(fceId);
+								fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
 							}
 							else
 							{
-								cube = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
-								if (cube == null)
+								cubeType = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
+								if (cubeType == null)
 									continue;
 							}
 						}
 
-                        UInt32 fceIdData = (UInt32)cube.TypeId << 16 | fceData;
+                        UInt32 fceIdData = (UInt32)cubeType.TypeId << 16 | fceData;
                         foreach (SByte mcDatum in mcData)
                         {
                             UInt32 mcIdData = mcIdShifted;
@@ -118,7 +152,7 @@ namespace MC_to_FCE
                                 mcIdData |= (Byte)mcDatum;
                             else
                                 mcIdData |= 0x8000;	// This bit flags if we don't care what the data is.
-                            mcIdDataToFCEIdData[mcIdData] = fceIdData;
+							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
                         }
                     }
                 }
@@ -197,23 +231,20 @@ namespace MC_to_FCE
                                 // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
                                 AlphaBlock block = chunk.Blocks.GetBlock(15 - z, y + i * 16, x);
                                 UInt32 mcIdData = (UInt32)block.ID << 16 | (UInt16)block.Data;
-
-                                UInt32 fceIdData;
-                                if (!mcIdDataToFCEIdData.TryGetValue(mcIdData, out fceIdData))
-                                {
-                                    if (!mcIdDataToFCEIdData.TryGetValue((mcIdData | 0x8000) & 0xFFFF8000, out fceIdData))
-                                    {
-                                        // Flags that we don't care what the data is.
-                                        fceIdData = 1 << 16;
-                                        if (!unknownBlocks.ContainsKey((UInt16)block.ID))
-                                        {
-                                            unknownBlocks.Add((UInt16)block.ID, block.Info.Name);
-                                        }
-                                    }
-                                }
-                                UInt16 fceType = (UInt16)(fceIdData >> 16);
-                                UInt16 fceData = (UInt16)(fceIdData);
-                                array[z, y, x] = new Cube(fceType, 0, fceData, 13);
+								
+								Cube cube;
+								if (!mcIdDataToFCECube.TryGetValue(mcIdData, out cube))
+								{
+									if (!mcIdDataToFCECube.TryGetValue((mcIdData | 0x8000) & 0xFFFF8000, out cube))
+									{
+                                        cube = new Cube(1, 0, 0, 0);
+										if (!unknownBlocks.ContainsKey((UInt16)block.ID))
+										{
+											unknownBlocks.Add((UInt16)block.ID, block.Info.Name);
+										}
+									}
+								}
+								array[z, y, x] = cube;
                             }
                         }
                     }
@@ -241,7 +272,7 @@ namespace MC_to_FCE
 
         private CubeType generateDetailBlock(UInt16 typeId)
         {
-            return new CubeType(typeId, "Detail" + typeId, null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, false, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
+            return new CubeType(typeId, "Detail" + typeId, null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, true, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
         }
 
         public void checkSubDir(World world, SegmentCoords coords)
