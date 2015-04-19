@@ -277,10 +277,8 @@ namespace MC_to_FCE
 
         public void checkSubDir(World world, SegmentCoords coords)
         {
-            long num = coords.X >> 8;
-            long num2 = coords.Y >> 8;
-            long num3 = coords.Z >> 8;
-            string subDir = "d-" + num.ToString("X") + "-" + num2.ToString("X") + "-" + num3.ToString("X");
+			SubdirectoryCoords subCoords = new SubdirectoryCoords(coords);
+            string subDir = "d-" + subCoords.X.ToString("X") + "-" + subCoords.Y.ToString("X") + "-" + subCoords.Z.ToString("X");
             string path = world.SegmentPath + subDir;
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -300,7 +298,7 @@ namespace MC_to_FCE
                         break;
                     if (queue.TryDequeue(out segment))
                     {
-                        checkSubDir(world, segment.GetCoords());
+                        checkSubDir(world, segment.Coords);
                         FileStream fs = File.Open(Path.Combine(world.SegmentPath, segment.GetSegmentFileName()), FileMode.Create);
                         segment.WriteSegment(fs);
                         fs.Dispose();
