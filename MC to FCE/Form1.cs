@@ -16,6 +16,7 @@ namespace MC_to_FCE
 		private String _mcDirectory;
 		private String _mceNamesToFCENamesPath;
 		private String _terrainDataPath;
+		private Boolean _useSpawnAsOrigin;
 
 		public MCToFCEForm()
 		{
@@ -81,6 +82,7 @@ namespace MC_to_FCE
 			_fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
 			_mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
 			_mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
+			_useSpawnAsOrigin = UseSpawnAsOriginCheckBox.Checked;
 
 			if (!File.Exists(_mceNamesToFCENamesPath))
 			{
@@ -127,6 +129,7 @@ namespace MC_to_FCE
 			IDictionary<UInt16, CubeType> cubeTypes = CubeType.LoadFromFile(_terrainDataPath);
 			Segment.CubeList = cubeTypes;
 			_converter = new MinecraftConverter(_fceDirectory, cubeTypes);
+			_converter.UseSpawnAsOrigin = _useSpawnAsOrigin;
 			List<String> unfoundNames = _converter.LoadNameMap(_mceNamesToFCENamesPath);
 			foreach (String name in unfoundNames)
 				progress.Report("Minecraft block name \"" + name + "\" was not found. \n");

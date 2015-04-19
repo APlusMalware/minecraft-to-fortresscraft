@@ -28,8 +28,9 @@ namespace MC_to_FCE
         private Task _saveTask;
         private CancellationToken _token;
 
+		public Boolean UseSpawnAsOrigin { get; set; }
 
-        public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
+		public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
         {
 			mcIdDataToFCECube = new Dictionary<UInt32, Cube>();
             unknownBlocks = new Dictionary<UInt16, String>();
@@ -211,10 +212,10 @@ namespace MC_to_FCE
                     Thread.Sleep(500);
                 }
 
-                Int32 spawnOffsetX = spawnChunkX - chunk.X;
-                Int32 spawnOffsetZ = spawnChunkZ - chunk.Z;
+                Int32 spawnOffsetX = UseSpawnAsOrigin ? spawnChunkX - chunk.X : -chunk.X;
+                Int32 spawnOffsetZ = UseSpawnAsOrigin ? spawnChunkZ - chunk.Z : -chunk.Z;
 
-                Int64 baseX = 4611686017890516944L + (Int64)(spawnOffsetX * 16);
+				Int64 baseX = 4611686017890516944L + (Int64)(spawnOffsetX * 16);
                 // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
                 Int64 baseZ = 4611686017890516944L - (Int64)(spawnOffsetZ * 16);
                 for (Int32 i = 0; i < (anvil ? 16 : 8); i++)

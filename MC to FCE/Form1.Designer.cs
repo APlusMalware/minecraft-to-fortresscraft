@@ -47,6 +47,7 @@
 			this.FortressCraftWorldPathLabel = new System.Windows.Forms.Label();
 			this.MinecraftWorldPathLabel = new System.Windows.Forms.Label();
 			this.LogBoxLabel = new System.Windows.Forms.Label();
+			this.UseSpawnAsOriginCheckBox = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// MCToFCENamePathLabel
@@ -55,7 +56,7 @@
 			this.MCToFCENamePathLabel.Location = new System.Drawing.Point(9, 87);
 			this.MCToFCENamePathLabel.Name = "MCToFCENamePathLabel";
 			this.MCToFCENamePathLabel.Size = new System.Drawing.Size(101, 13);
-			this.MCToFCENamePathLabel.TabIndex = 12;
+			this.MCToFCENamePathLabel.TabIndex = 13;
 			this.MCToFCENamePathLabel.Text = "Cube Mapping Path";
 			// 
 			// MCToFCENamePathInput
@@ -117,7 +118,7 @@
 			this.StartConvertButton.Location = new System.Drawing.Point(521, 179);
 			this.StartConvertButton.Name = "StartConvertButton";
 			this.StartConvertButton.Size = new System.Drawing.Size(91, 23);
-			this.StartConvertButton.TabIndex = 8;
+			this.StartConvertButton.TabIndex = 9;
 			this.StartConvertButton.Text = "Start Convert";
 			this.StartConvertButton.UseVisualStyleBackColor = true;
 			this.StartConvertButton.Click += new System.EventHandler(this.StartConvertButton_click);
@@ -130,7 +131,7 @@
 			this.logBox.ReadOnly = true;
 			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.logBox.Size = new System.Drawing.Size(600, 131);
-			this.logBox.TabIndex = 9;
+			this.logBox.TabIndex = 10;
 			// 
 			// MCToFCENamePathDialog
 			// 
@@ -182,7 +183,7 @@
 			this.FortressCraftTerrainDataLabel.Location = new System.Drawing.Point(9, 126);
 			this.FortressCraftTerrainDataLabel.Name = "FortressCraftTerrainDataLabel";
 			this.FortressCraftTerrainDataLabel.Size = new System.Drawing.Size(114, 13);
-			this.FortressCraftTerrainDataLabel.TabIndex = 13;
+			this.FortressCraftTerrainDataLabel.TabIndex = 14;
 			this.FortressCraftTerrainDataLabel.Text = "FCE Terrain Data Path";
 			// 
 			// FortressCraftWorldPathLabel
@@ -191,7 +192,7 @@
 			this.FortressCraftWorldPathLabel.Location = new System.Drawing.Point(9, 9);
 			this.FortressCraftWorldPathLabel.Name = "FortressCraftWorldPathLabel";
 			this.FortressCraftWorldPathLabel.Size = new System.Drawing.Size(122, 13);
-			this.FortressCraftWorldPathLabel.TabIndex = 10;
+			this.FortressCraftWorldPathLabel.TabIndex = 11;
 			this.FortressCraftWorldPathLabel.Text = "FortressCraft World Path";
 			// 
 			// MinecraftWorldPathLabel
@@ -200,7 +201,7 @@
 			this.MinecraftWorldPathLabel.Location = new System.Drawing.Point(9, 48);
 			this.MinecraftWorldPathLabel.Name = "MinecraftWorldPathLabel";
 			this.MinecraftWorldPathLabel.Size = new System.Drawing.Size(107, 13);
-			this.MinecraftWorldPathLabel.TabIndex = 11;
+			this.MinecraftWorldPathLabel.TabIndex = 12;
 			this.MinecraftWorldPathLabel.Text = "Minecraft World Path";
 			// 
 			// LogBoxLabel
@@ -209,14 +210,27 @@
 			this.LogBoxLabel.Location = new System.Drawing.Point(9, 184);
 			this.LogBoxLabel.Name = "LogBoxLabel";
 			this.LogBoxLabel.Size = new System.Drawing.Size(25, 13);
-			this.LogBoxLabel.TabIndex = 14;
+			this.LogBoxLabel.TabIndex = 15;
 			this.LogBoxLabel.Text = "Log";
+			// 
+			// UseSpawnAsOriginCheckBox
+			// 
+			this.UseSpawnAsOriginCheckBox.AutoSize = true;
+			this.UseSpawnAsOriginCheckBox.Checked = true;
+			this.UseSpawnAsOriginCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.UseSpawnAsOriginCheckBox.Location = new System.Drawing.Point(343, 183);
+			this.UseSpawnAsOriginCheckBox.Name = "UseSpawnAsOriginCheckBox";
+			this.UseSpawnAsOriginCheckBox.Size = new System.Drawing.Size(172, 17);
+			this.UseSpawnAsOriginCheckBox.TabIndex = 8;
+			this.UseSpawnAsOriginCheckBox.Text = "Use Minecraft Spawn as Origin";
+			this.UseSpawnAsOriginCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// MCToFCEForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(624, 351);
+			this.Controls.Add(this.UseSpawnAsOriginCheckBox);
 			this.Controls.Add(this.LogBoxLabel);
 			this.Controls.Add(this.MinecraftWorldPathLabel);
 			this.Controls.Add(this.FortressCraftWorldPathLabel);
@@ -261,6 +275,7 @@
 		private System.Windows.Forms.Label FortressCraftWorldPathLabel;
 		private System.Windows.Forms.Label MinecraftWorldPathLabel;
 		private System.Windows.Forms.Label LogBoxLabel;
+		private System.Windows.Forms.CheckBox UseSpawnAsOriginCheckBox;
 	}
 }
 
