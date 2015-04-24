@@ -219,30 +219,118 @@
   </FARMLAND>
   <FURNACE>
     <MCValue>
-      <Value>-1</Value>
+      <Value>2</Value>
       <FCEName>Pyrothermic Generator</FCEName>
       <FCEData>0</FCEData>
+	  <Orientation>A0</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A2</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>4</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A1</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>5</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A3</Orientation>
     </MCValue>
   </FURNACE>
   <BURNING_FURNACE>
     <MCValue>
-      <Value>-1</Value>
+      <Value>2</Value>
       <FCEName>Pyrothermic Generator</FCEName>
       <FCEData>0</FCEData>
+	  <Orientation>A0</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A2</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>4</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A1</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>5</Value>
+      <FCEName>Pyrothermic Generator</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>A3</Orientation>
     </MCValue>
   </BURNING_FURNACE>
   <SIGN_POST>
     <MCValue>
-      <Value>-1</Value>
+      <Value>7</Value>
+	  <Value>8</Value>
+      <Value>9</Value>
+	  <Value>10</Value>
       <FCEName>Sign</FCEName>
       <FCEData>0</FCEData>
+	  <Orientation>N0</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>15</Value>
+	  <Value>0</Value>
+      <Value>1</Value>
+	  <Value>2</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>S2</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>11</Value>
+	  <Value>12</Value>
+      <Value>13</Value>
+	  <Value>14</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>E1</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+	  <Value>4</Value>
+      <Value>5</Value>
+	  <Value>6</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>W3</Orientation>
     </MCValue>
   </SIGN_POST>
   <WALL_SIGN>
     <MCValue>
-      <Value>-1</Value>
+      <Value>2</Value>
       <FCEName>Sign</FCEName>
       <FCEData>0</FCEData>
+	  <Orientation>N0</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>3</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>S2</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>4</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>E1</Orientation>
+    </MCValue>
+    <MCValue>
+      <Value>5</Value>
+      <FCEName>Sign</FCEName>
+      <FCEData>0</FCEData>
+	  <Orientation>W3</Orientation>
     </MCValue>
   </WALL_SIGN>
   <SNOW>
