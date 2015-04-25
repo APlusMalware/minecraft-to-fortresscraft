@@ -201,7 +201,7 @@ namespace MC_to_FCE
 			spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
 
             World fceWorld = new World(worldName, _fceDirectory);
-            _totalSegments = chunkManager.LongCount() * 16;
+            _totalSegments = chunkManager.LongCount() * (anvil ? 16 : 8);
             _segmentsLeft = _totalSegments;
             startSaveThread(fceWorld);
             foreach (ChunkRef chunk in chunkManager)
@@ -211,6 +211,12 @@ namespace MC_to_FCE
                 {
                     Thread.Sleep(500);
                 }
+
+				if (chunk.Blocks == null)
+				{
+					_segmentsLeft -= (anvil ? 16 : 8);
+                    continue;
+				}
 
                 Int32 spawnOffsetX = UseSpawnAsOrigin ? spawnChunkX - chunk.X : -chunk.X;
                 Int32 spawnOffsetZ = UseSpawnAsOrigin ? spawnChunkZ - chunk.Z : -chunk.Z;
@@ -228,8 +234,8 @@ namespace MC_to_FCE
                         {
                             for (Byte z = 0; z < 16; z++)
                             {
-                                // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
-                                AlphaBlock block = chunk.Blocks.GetBlock(15 - z, y + i * 16, x);
+								// Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
+								AlphaBlock block = chunk.Blocks.GetBlock(15 - z, y + i * 16, x);
                                 UInt32 mcIdData = (UInt32)block.ID << 16 | (UInt16)block.Data;
 								
 								Cube cube;
