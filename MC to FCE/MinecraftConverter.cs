@@ -17,7 +17,6 @@ namespace MC_to_FCE
     {
         IDictionary<UInt16, CubeType> fceCubes;
 		Dictionary<UInt32, Cube> mcIdDataToFCECube;
-		Dictionary<UInt16, String> unknownBlocks;
         private String _fceDirectory;
 
         private Int64 _totalSegments;
@@ -29,11 +28,12 @@ namespace MC_to_FCE
         private CancellationToken _token;
 
 		public Boolean UseSpawnAsOrigin { get; set; }
+		public Dictionary<UInt16, String> UnknownBlocks;
 
 		public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
         {
 			mcIdDataToFCECube = new Dictionary<UInt32, Cube>();
-            unknownBlocks = new Dictionary<UInt16, String>();
+            UnknownBlocks = new Dictionary<UInt16, String>();
             _fceDirectory = fceDirectory;
             fceCubes = cubeTypes;
             _saveQueue = new ConcurrentQueue<Segment>();
@@ -238,9 +238,9 @@ namespace MC_to_FCE
 									if (!mcIdDataToFCECube.TryGetValue((mcIdData | 0x8000) & 0xFFFF8000, out cube))
 									{
                                         cube = new Cube(1, 0, 0, 0);
-										if (!unknownBlocks.ContainsKey((UInt16)block.ID))
+										if (!UnknownBlocks.ContainsKey((UInt16)block.ID))
 										{
-											unknownBlocks.Add((UInt16)block.ID, block.Info.Name);
+											UnknownBlocks.Add((UInt16)block.ID, block.Info.Name);
 										}
 									}
 								}

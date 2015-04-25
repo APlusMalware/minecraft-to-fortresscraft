@@ -138,6 +138,12 @@ namespace MC_to_FCE
 			Int64 startConvertTime = DateTime.Now.Ticks;
 			world = _converter.ConvertWorld(_mcDirectory);
 			Int64 endConvertTime = DateTime.Now.Ticks;
+			if (_converter.UnknownBlocks.Count > 0)
+			{
+				progress.Report("The following Minecraft blocks did not have a mapping: \n");
+				foreach (KeyValuePair<UInt16, String> unknownBlock in _converter.UnknownBlocks)
+					progress.Report(" ID: " + unknownBlock.Key + " Name: " + unknownBlock.Value + "\n");
+			}
 			progress.Report("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
 
 			FlagPass.CubeTypes = cubeTypes;
