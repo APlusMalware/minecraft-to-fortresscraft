@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Linq;
 using System.IO;
 using Substrate;
@@ -49,112 +50,111 @@ namespace MC_to_FCE
             List<String> unfoundNames = new List<String>();
 
             DocumentMaps.Load(filePath);
-            XmlNodeList elementsByTagName = DocumentMaps.GetElementsByTagName("Blocks");
+
+			var document = XDocument.Load(filePath);
+
+            XmlNodeList elementsByTagName = DocumentMaps.GetElementsByTagName("MinecraftBlocks");
 
             foreach (var mcBlock in mcBlockTable)
             {
                 if (mcBlock.Registered)
                 {
-                    mcNameToId.Add(mcBlock.Name.ToUpper().Replace('(', ' ').Replace(")", " ").Replace(" ", ""), (UInt16)mcBlock.ID);
+                    mcNameToId.Add(mcBlock.Name, (UInt16)mcBlock.ID);
                 }
             }
 
-            foreach (XmlNode root in elementsByTagName)
+            foreach (var mcBlock in document.Element("MinecraftBlocks").Elements("Block"))
             {
-                foreach (XmlNode mcName in root.ChildNodes)
+				String mcName = mcBlock.Element("MCName").Value;
+				
+                UInt16 mcId;
+                UInt32 mcIdShifted;
+                if (!mcNameToId.TryGetValue(mcName, out mcId))
                 {
-                    String mcCleanName = mcName.Name.Replace("_", "");
-                    UInt16 mcId;
-                    UInt32 mcIdShifted;
-                    if (!mcNameToId.TryGetValue(mcCleanName, out mcId))
+                    // If the name isn't found, use the id number
+                    if (!UInt16.TryParse(mcBlock.Element("MCId").Value, out mcId))
                     {
-                        // If the name isn't found, try to parse it as an id number directly
-                        if (!UInt16.TryParse(mcCleanName, out mcId))
-                        {
-                            unfoundNames.Add(mcName.Name);
-                            continue;
-                        }
+                        unfoundNames.Add(mcName);
+                        continue;
                     }
-                    mcIdShifted = (UInt32)mcId << 16;
+                }
+                mcIdShifted = (UInt32)mcId << 16;
 
-                    foreach (XmlNode mcValue in mcName.ChildNodes)
-                    {
-                        List<SByte> mcData = new List<SByte>();
-                        String fceName = "";
-                        UInt16 fceData = 0;
-						UInt16 fceId = 0;
-						Byte orientation = 0;
-						foreach (XmlNode node in mcValue.ChildNodes)
-                        {
-							if (node.Name == "Value")
-								mcData.Add(SByte.Parse(node.InnerText));
-							else if (node.Name == "FCEId")
-								fceId = UInt16.Parse(node.InnerText);
-							else if (node.Name == "FCEName")
-								fceName = node.InnerText;
-							else if (node.Name == "FCEData")
-								fceData = UInt16.Parse(node.InnerText, NumberStyles.HexNumber);
-							else if (node.Name == "Orientation")
-							{
-								Char a = node.InnerText[0];
-								Char b = node.InnerText[1];
-								switch (a)
-								{
-									case 'N':
-									case 'n':
-										orientation = Cube.NORTH_FACE;
-										break;
-									case 'S':
-									case 's':
-										orientation = Cube.SOUTH_FACE;
-										break;
-									case 'E':
-									case 'e':
-										orientation = Cube.EAST_FACE;
-										break;
-									case 'W':
-									case 'w':
-										orientation = Cube.WEST_FACE;
-										break;
-									case 'A':
-									case 'a':
-										orientation = Cube.ABOVE_FACE;
-										break;
-									case 'B':
-									case 'b':
-										orientation = Cube.BELOW_FACE;
-										break;
-								}
-								orientation += (Byte)(Byte.Parse(b.ToString()) << 6);
-							}
-						}
+                foreach (var mcValue in mcBlock.Elements("MCValue"))
+                {
+                    List<SByte> mcData = new List<SByte>();
+					if (mcValue.Elements("Value").Count() > 0)
+					{
+						foreach (var value in mcValue.Elements("Value"))
+							mcData.Add(SByte.Parse(value.Value));
+					}
+					else
+						continue;
+                    String fceName = mcValue.Element("FCEName") != null ? mcValue.Element("FCEName").Value : String.Empty;
+                    UInt16 fceData = mcValue.Element("FCEData") != null ? UInt16.Parse(mcValue.Element("FCEData").Value, NumberStyles.HexNumber) : (UInt16) 0;
 
-						CubeType cubeType;
-						if (!fceCubes.TryGetValue(fceId, out cubeType))
+					UInt16 fceId = mcValue.Element("FCEId") != null ? UInt16.Parse(mcValue.Element("FCEId").Value) : (UInt16) 0;
+					Byte orientation = 0;
+
+					if (mcValue.Element("Orientation") != null)
+					{
+						Char a = mcValue.Element("Orientation").Value[0];
+						Char b = mcValue.Element("Orientation").Value[1];
+						switch (a)
 						{
-							if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
-							{
-								cubeType = generateDetailBlock(fceId);
-								fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
-							}
-							else
-							{
-								cubeType = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
-								if (cubeType == null)
-									continue;
-							}
+							case 'N':
+							case 'n':
+								orientation = Cube.NORTH_FACE;
+								break;
+							case 'S':
+							case 's':
+								orientation = Cube.SOUTH_FACE;
+								break;
+							case 'E':
+							case 'e':
+								orientation = Cube.EAST_FACE;
+								break;
+							case 'W':
+							case 'w':
+								orientation = Cube.WEST_FACE;
+								break;
+							case 'A':
+							case 'a':
+								orientation = Cube.ABOVE_FACE;
+								break;
+							case 'B':
+							case 'b':
+								orientation = Cube.BELOW_FACE;
+								break;
 						}
+						orientation += (Byte)(Byte.Parse(b.ToString()) << 6);
+					}
 
-                        UInt32 fceIdData = (UInt32)cubeType.TypeId << 16 | fceData;
-                        foreach (SByte mcDatum in mcData)
-                        {
-                            UInt32 mcIdData = mcIdShifted;
-                            if (mcDatum > 0)
-                                mcIdData |= (Byte)mcDatum;
-                            else
-                                mcIdData |= 0x8000;	// This bit flags if we don't care what the data is.
-							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
-                        }
+					CubeType cubeType;
+					if (!fceCubes.TryGetValue(fceId, out cubeType))
+					{
+						if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
+						{
+							cubeType = generateDetailBlock(fceId);
+							fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
+						}
+						else
+						{
+							cubeType = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
+							if (cubeType == null)
+								continue;
+						}
+					}
+
+                    UInt32 fceIdData = (UInt32)cubeType.TypeId << 16 | fceData;
+                    foreach (SByte mcDatum in mcData)
+                    {
+                        UInt32 mcIdData = mcIdShifted;
+                        if (mcDatum > 0)
+                            mcIdData |= (Byte)mcDatum;
+                        else
+                            mcIdData |= 0x8000;	// This bit flags if we don't care what the data is.
+						mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
                     }
                 }
             }
