@@ -65,16 +65,17 @@ namespace MC_to_FCE
 
             foreach (var mcBlock in document.Element("MinecraftBlocks").Elements("Block"))
             {
-				String mcName = mcBlock.Element("MCName").Value;
+
+				String mcName = mcBlock.Element("MCName") != null ? mcBlock.Element("MCName").Value : "";
 				
                 UInt16 mcId;
                 UInt32 mcIdShifted;
                 if (!mcNameToId.TryGetValue(mcName, out mcId))
                 {
                     // If the name isn't found, use the id number
-                    if (!UInt16.TryParse(mcBlock.Element("MCId").Value, out mcId))
+                    if (mcBlock.Element("MCId") == null || !UInt16.TryParse(mcBlock.Element("MCId").Value, out mcId))
                     {
-                        unfoundNames.Add(mcName);
+                        unfoundNames.Add(mcName + " : " + mcBlock.Element("MCId"));
                         continue;
                     }
                 }
