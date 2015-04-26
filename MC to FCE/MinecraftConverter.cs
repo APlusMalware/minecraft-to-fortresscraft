@@ -147,15 +147,27 @@ namespace MC_to_FCE
 					}
 
                     UInt32 fceIdData = (UInt32)cubeType.TypeId << 16 | fceData;
-                    foreach (SByte mcDatum in mcData)
-                    {
-                        UInt32 mcIdData = mcIdShifted;
-                        if (mcDatum > 0)
-                            mcIdData |= (Byte)mcDatum;
-                        else
-                            mcIdData |= 0x8000;	// This bit flags if we don't care what the data is.
-						mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
-                    }
+
+					// Check if there are any negative minecraft data values and skip all others if there are
+					if (mcData.Count(data => data < 0) > 0)
+					{
+						// Set all id-data combinations equal to this value
+						for (UInt16 i = 0; i < 16; i++)
+						{
+							UInt32 mcIdData = mcIdShifted;
+							mcIdData |= i;
+							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
+						}
+					}
+					else
+					{
+						foreach (SByte mcDatum in mcData)
+						{
+							UInt32 mcIdData = mcIdShifted;
+							mcIdData |= (Byte)mcDatum;
+							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
+						}
+					}
                 }
             }
             return unfoundNames;
@@ -241,13 +253,10 @@ namespace MC_to_FCE
 								Cube cube;
 								if (!mcIdDataToFCECube.TryGetValue(mcIdData, out cube))
 								{
-									if (!mcIdDataToFCECube.TryGetValue((mcIdData | 0x8000) & 0xFFFF8000, out cube))
+                                    cube = new Cube(1, 0, 0, 0);
+									if (!UnknownBlocks.ContainsKey((UInt16)block.ID))
 									{
-                                        cube = new Cube(1, 0, 0, 0);
-										if (!UnknownBlocks.ContainsKey((UInt16)block.ID))
-										{
-											UnknownBlocks.Add((UInt16)block.ID, block.Info.Name);
-										}
+										UnknownBlocks.Add((UInt16)block.ID, block.Info.Name);
 									}
 								}
 								array[z, y, x] = cube;
