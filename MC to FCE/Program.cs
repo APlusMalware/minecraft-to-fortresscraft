@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -8,15 +7,60 @@ namespace MC_to_FCE
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MCToFCEForm());
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main(String[] args)
+		{
+			if (args.Length > 3)
+			{
+				processArguments(args);
+				Console.Read();
+			}
+			else
+			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				Application.Run(new MCToFCEForm());
+			}
         }
+
+		private static void processArguments(String[] args)
+		{
+			String fceDirectory = args[0];
+			String mcDirectory = args[1];
+			String terrainDataPath = args[2];
+			String nameMapPath = args[3];
+			Boolean useSpawnAsOrigin = !(args.Length > 4 && args[4] == "-o");
+
+			Progress<String> progress = new Progress<String>(s => Console.WriteLine(s));
+
+			if (!File.Exists(nameMapPath))
+			{
+				MessageBox.Show("The specified Cube Mapping file could not be found.");
+				return;
+			}
+			if (!File.Exists(terrainDataPath))
+			{
+				MessageBox.Show("The specified Terrain Data file could not be found. ");
+				return;
+			}
+			if (!Directory.Exists(mcDirectory))
+			{
+				MessageBox.Show("The specified Minecraft world could not be found.");
+				return;
+			}
+			if (!Directory.Exists(fceDirectory))
+			{
+				MessageBox.Show("The specified FortressCraft world could not be found.");
+				return;
+			}
+
+			MinecraftMapper mapper = new MinecraftMapper(useSpawnAsOrigin);
+			Converter converter = new Converter(terrainDataPath, fceDirectory, mapper);
+			
+			converter.Begin(mcDirectory, nameMapPath, progress);
+		}
     }
 }

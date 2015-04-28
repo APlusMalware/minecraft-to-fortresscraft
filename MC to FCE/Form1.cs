@@ -10,14 +10,6 @@ namespace MC_to_FCE
 {
 	public partial class MCToFCEForm : Form
 	{
-		private MinecraftConverter _converter;
-		private World world;
-		private String _fceDirectory;
-		private String _mcDirectory;
-		private String _mceNamesToFCENamesPath;
-		private String _terrainDataPath;
-		private Boolean _useSpawnAsOrigin;
-
 		public MCToFCEForm()
 		{
 			InitializeComponent();
@@ -77,88 +69,41 @@ namespace MC_to_FCE
 		private async void StartConvertButton_click(object sender, EventArgs e)
 		{
 			Progress<String> progress = new Progress<String>(s => logBox.AppendText(s));
-			logBox.AppendText("Preparing to convert...\n");
 
-			_fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
-			_mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
-			_mceNamesToFCENamesPath = MCToFCENamePathInput.Text;
-			_useSpawnAsOrigin = UseSpawnAsOriginCheckBox.Checked;
+			Boolean useSpawnAsOrigin = UseSpawnAsOriginCheckBox.Checked;
 
-			if (!File.Exists(_mceNamesToFCENamesPath))
+			String fceDirectory = Directory.GetParent(FortressCraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
+			String mcDirectory = Directory.GetParent(MinecraftWorldPathInput.Text).FullName + Path.DirectorySeparatorChar;
+			String mcNamesToFCENames = MCToFCENamePathInput.Text;
+			String terrainDataPath = FortressCraftTerrainDataPathInput.Text;
+
+			if (!File.Exists(mcNamesToFCENames))
 			{
 				MessageBox.Show("The specified Cube Mapping file could not be found.");
 				return;
 			}
-			_terrainDataPath = FortressCraftTerrainDataPathInput.Text;
-			if (!File.Exists(_terrainDataPath))
+			if (!File.Exists(terrainDataPath))
 			{
 				MessageBox.Show("The specified Terrain Data file could not be found.");
 				return;
 			}
+			if (!Directory.Exists(mcDirectory))
+			{
+				MessageBox.Show("The specified Minecraft world could not be found.");
+				return;
+			}
+			if (!Directory.Exists(fceDirectory))
+			{
+				MessageBox.Show("The specified FortressCraft world could not be found.");
+				return;
+			}
+
+			MinecraftMapper mapper = new MinecraftMapper(useSpawnAsOrigin);
+			Converter converter = new Converter(terrainDataPath, fceDirectory, mapper);
+
 			StartConvertButton.Enabled = false;
-			await Task.Factory.StartNew(() => startConvert(progress));
+			await Task.Factory.StartNew(() => converter.Begin(mcDirectory, mcNamesToFCENames, progress));
 			StartConvertButton.Enabled = true;
-		}
-
-		private void startConvert(IProgress<String> progress)
-		{
-			if (Directory.Exists(_fceDirectory + "Segments"))
-			{
-				Parallel.ForEach(Directory.GetDirectories(_fceDirectory + "Segments"), (directory) =>
-				{
-					String[] dashSeperated = directory.Split('-');
-					if (dashSeperated.Length == 4)
-					{
-						String[] slashSeperated = dashSeperated[0].Split('\\');
-						if (slashSeperated[slashSeperated.Length - 1] == "d")
-							Directory.Delete(directory, true);
-					}
-				});
-				Parallel.ForEach(Directory.GetFiles(_fceDirectory + "Segments"), (file) =>
-				{
-					String[] dashSeperated = file.Split('-');
-					if (dashSeperated.Length == 4)
-					{
-						String[] slashSeperated = dashSeperated[0].Split('\\');
-						if (slashSeperated[slashSeperated.Length - 1] == "d")
-							File.Delete(file);
-					}
-				});
-			}
-
-			IDictionary<UInt16, CubeType> cubeTypes = CubeType.LoadFromFile(_terrainDataPath);
-			Segment.CubeList = cubeTypes;
-			_converter = new MinecraftConverter(_fceDirectory, cubeTypes);
-			_converter.UseSpawnAsOrigin = _useSpawnAsOrigin;
-			List<String> unfoundNames = _converter.LoadNameMap(_mceNamesToFCENamesPath);
-			foreach (String name in unfoundNames)
-				progress.Report("Minecraft block name \"" + name + "\" was not found. \n");
-			progress.Report("Starting world conversion... (Step 1/3)\n");
-
-			Int64 startConvertTime = DateTime.Now.Ticks;
-			world = _converter.ConvertWorld(_mcDirectory);
-			Int64 endConvertTime = DateTime.Now.Ticks;
-			if (_converter.UnknownBlocks.Count > 0)
-			{
-				progress.Report("The following Minecraft blocks did not have a mapping: \n");
-				foreach (KeyValuePair<UInt16, String> unknownBlock in _converter.UnknownBlocks)
-					progress.Report(" ID: " + unknownBlock.Key + " Name: " + unknownBlock.Value + "\n");
-			}
-			progress.Report("World conversion finished " + ((endConvertTime - startConvertTime) / 10000000D) + " seconds. Beginning flag pass... (Step 2/3)\n");
-
-			FlagPass.CubeTypes = cubeTypes;
-			List<String> failed = FlagPass.FixWorld(world);
-			Int64 endFlagTime = DateTime.Now.Ticks;
-			if (failed.Count > 0)
-				progress.Report("Could not fix the following segment files: \n");
-			foreach (String fileName in failed)
-				progress.Report(Path.GetFileName(fileName) + "\n");
-			progress.Report("Flag pass finished in " + ((endFlagTime - endConvertTime) / 10000000D) + " seconds. Beginning world zip... (Step 3/3)\n");
-
-			world.Zip();
-			Int64 endZipTime = DateTime.Now.Ticks;
-			progress.Report("World zip finished in " + ((endZipTime - endFlagTime) / 10000000D) + " seconds.\n");
-			progress.Report("Conversion complete!\n");
 		}
 	}
 }

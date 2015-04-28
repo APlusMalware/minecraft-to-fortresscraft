@@ -14,10 +14,10 @@ using System.Threading;
 
 namespace MC_to_FCE
 {
-    public class MinecraftConverter
+    public class MinecraftMapper : IMapper
     {
-        IDictionary<UInt16, CubeType> fceCubes;
-		Dictionary<UInt32, Cube> mcIdDataToFCECube;
+        private IDictionary<UInt16, CubeType> _fceCubes;
+		private Dictionary<UInt32, Cube> _mcIdDataToFCECube;
         private String _fceDirectory;
 
         private Int64 _totalSegments;
@@ -29,16 +29,31 @@ namespace MC_to_FCE
         private CancellationToken _token;
 
 		public Boolean UseSpawnAsOrigin { get; set; }
-		public Dictionary<UInt16, String> UnknownBlocks;
+		public IDictionary<UInt16, String> UnknownBlocks { get; set; }
 
-		public MinecraftConverter(String fceDirectory, IDictionary<UInt16, CubeType> cubeTypes)
+		public IDictionary<UInt16, CubeType> FCECubes
+		{
+			get
+			{
+				return _fceCubes;
+			}
+			set
+			{
+				_fceCubes = value;
+			}
+		}
+		public String FCEDirectory
+		{
+			get { return _fceDirectory; }
+			set { _fceDirectory = value; }
+		}
+
+		public MinecraftMapper(Boolean useSpawnAsOrigin)
         {
-			mcIdDataToFCECube = new Dictionary<UInt32, Cube>();
+			_mcIdDataToFCECube = new Dictionary<UInt32, Cube>();
             UnknownBlocks = new Dictionary<UInt16, String>();
-            _fceDirectory = fceDirectory;
-            fceCubes = cubeTypes;
             _saveQueue = new ConcurrentQueue<Segment>();
-
+			UseSpawnAsOrigin = useSpawnAsOrigin;
         }
 
         public List<String> LoadNameMap(String filePath)
@@ -132,16 +147,16 @@ namespace MC_to_FCE
 					}
 
 					CubeType cubeType;
-					if (!fceCubes.TryGetValue(fceId, out cubeType))
+					if (!_fceCubes.TryGetValue(fceId, out cubeType))
 					{
 						if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
 						{
 							cubeType = generateDetailBlock(fceId);
-							fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
+							_fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
 						}
 						else
 						{
-							cubeType = fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
+							cubeType = _fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
 							if (cubeType == null)
 								continue;
 						}
@@ -157,7 +172,7 @@ namespace MC_to_FCE
 						{
 							UInt32 mcIdData = mcIdShifted;
 							mcIdData |= i;
-							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
+							_mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
 						}
 					}
 					else
@@ -166,7 +181,7 @@ namespace MC_to_FCE
 						{
 							UInt32 mcIdData = mcIdShifted;
 							mcIdData |= (Byte)mcDatum;
-							mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
+							_mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
 						}
 					}
                 }
@@ -252,7 +267,7 @@ namespace MC_to_FCE
                                 UInt32 mcIdData = (UInt32)block.ID << 16 | (UInt16)block.Data;
 								
 								Cube cube;
-								if (!mcIdDataToFCECube.TryGetValue(mcIdData, out cube))
+								if (!_mcIdDataToFCECube.TryGetValue(mcIdData, out cube))
 								{
                                     cube = new Cube(1, 0, 0, 0);
 									if (!UnknownBlocks.ContainsKey((UInt16)block.ID))
