@@ -1,0 +1,25 @@
+﻿Version 1.1
+- Added basic command line support
+- Added all official Minecraft block names and IDs for references
+- More error checking
+- Fixed crash when converting 1.8 worlds
+- Displays name and ID of Minecraft blocks that don't have a mapping
+- Added a changelog
+Version 1.0.4
+- First public release
+- Added orientation support
+- Detail blocks can now be specifically mapped
+- Removed automatic detail block mapping
+- Added option to keep Minecraft origin instead of setting it to spawn location
+- Added padding to prevent FortressCraft from generating new segments over converted world
+Verison 1.0.3
+- Fixed directory deletion
+Version 1.0.2
+- Multithreaded deletion of pre-existing world
+- World conversion will wait for save thread to catch up if needed
+- Can automatically assign unrecognized Minecraft blocks to a detail block 
+Version 1.0.1
+- Updated diamond and snow mappings
+- Added file path checks
+Version 1.0.0
+- Good enough to use
