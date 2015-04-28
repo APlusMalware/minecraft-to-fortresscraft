@@ -57,6 +57,22 @@
 		</MCValue>
 	</Block>
 	<Block>
+		<MCName>Water</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>12B</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stationary Water</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>12B</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
 		<MCName>Lava</MCName>
 		<MCValue>
 			<Value>-1</Value>
@@ -121,6 +137,37 @@
 		</MCValue>
 	</Block>
 	<Block>
+		<MCName>Leaves</MCName>
+		<MCValue>
+			<Value>0</Value>
+			<Value>2</Value>
+			<Value>4</Value>
+			<Value>6</Value>
+			<Value>8</Value>
+			<Value>10</Value>
+			<Value>12</Value>
+			<Value>14</Value>
+			<FCEName>Leaves</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>1</Value>
+			<Value>5</Value>
+			<Value>9</Value>
+			<Value>13</Value>
+			<FCEName>Forest</FCEName>
+			<FCEData>391</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>3</Value>
+			<Value>7</Value>
+			<Value>11</Value>
+			<Value>15</Value>
+			<FCEName>Rainforest</FCEName>
+			<FCEData>391</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
 		<MCName>Sponge</MCName>
 		<MCValue>
 			<Value>-1</Value>
@@ -134,6 +181,105 @@
 			<Value>-1</Value>
 			<FCEName>Window</FCEName>
 			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Lapis Lazuli Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>24A</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Sandstone</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Garden Packed Rocks</FCEName>
+			<FCEData>FEB</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wool</MCName>
+		<MCValue>
+			<Value>0</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>DDD</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>D73</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>2</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>B5B</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>3</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>68C</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>4</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>BA2</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>5</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>4A3</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>6</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>D89</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>7</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>444</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>8</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>9AA</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>9</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>268</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>10</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>73B</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>11</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>238</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>12</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>431</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>13</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>341</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>14</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>933</FCEData>
+		</MCValue>
+		<MCValue>
+			<Value>15</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>111</FCEData>
 		</MCValue>
 	</Block>
 	<Block>
@@ -201,11 +347,11 @@
 		</MCValue>
 	</Block>
 	<Block>
-		<MCName>Torch</MCName>
+		<MCName>Moss Stone</MCName>
 		<MCValue>
 			<Value>-1</Value>
-			<FCEName>Air</FCEName>
-			<FCEData>0</FCEData>
+			<FCEName>Ivy</FCEName>
+			<FCEData>777</FCEData>
 		</MCValue>
 	</Block>
 	<Block>
@@ -369,6 +515,22 @@
 		</MCValue>
 	</Block>
 	<Block>
+		<MCName>Redstone Ore</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Ruby Ore</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Glowing Redstone Ore</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Ruby Ore</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
 		<MCName>Snow</MCName>
 		<MCValue>
 			<Value>-1</Value>
@@ -382,6 +544,30 @@
 			<Value>-1</Value>
 			<FCEName>White Canvas</FCEName>
 			<FCEData>FFF</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Cactus</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>182</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Pumpkin</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>E91</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jack-O-Lantern</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>E91</FCEData>
 		</MCValue>
 	</Block>
 	<Block>
@@ -489,6 +675,14 @@
 		</MCValue>
 	</Block>
 	<Block>
+		<MCName>Emerald Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>6E8</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
 		<MCName>Beacon Block</MCName>
 		<MCValue>
 			<Value>-1</Value>
@@ -521,6 +715,14 @@
 		</MCValue>
 	</Block>
 	<Block>
+		<MCName>Block of Redstone</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>White Canvas</FCEName>
+			<FCEData>910</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
 		<MCName>Nether Quartz Ore</MCName>
 		<MCValue>
 			<Value>-1</Value>
@@ -544,182 +746,1087 @@
 			<FCEData>0</FCEData>
 		</MCValue>
 	</Block>
+
+	<!--
+	We're not converting these blocks since they don't have a close enough FortressCraft equivalent.
+	Having these set to air isn't necessary, but is provided as a name/id reference.
+	They're commented out by default, but uncommenting them won't have any ill effects. Most of these
+	blocks are only referenced by name, but blocks introduced after Minecraft 1.6.x are not available
+	by name and must be referenced by their ID number.
+	-->
+	<!--
 	<Block>
-		<MCName>Stationary Water</MCName>
+		<MCName>Sapling</MCName>
 		<MCValue>
 			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>12B</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Lapis Lazuli Block</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>24A</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Sandstone</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>Garden Packed Rocks</FCEName>
-			<FCEData>FEB</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Cactus</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>182</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Pumpkin</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>E91</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Jack-O-Lantern</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>E91</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Emerald Block</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>6E8</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Block of Redstone</MCName>
-		<MCValue>
-			<Value>-1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>910</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Wool</MCName>
-		<MCValue>
-			<Value>0</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>DDD</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>1</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>D73</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>2</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>B5B</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>3</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>68C</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>4</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>BA2</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>5</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>4A3</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>6</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>D89</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>7</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>444</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>8</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>9AA</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>9</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>268</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>10</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>73B</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>11</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>238</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>12</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>431</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>13</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>341</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>14</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>933</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>15</Value>
-			<FCEName>White Canvas</FCEName>
-			<FCEData>111</FCEData>
-		</MCValue>
-	</Block>
-	<Block>
-		<MCName>Leaves</MCName>
-		<MCValue>
-			<Value>0</Value>
-			<Value>2</Value>
-			<Value>4</Value>
-			<Value>6</Value>
-			<Value>8</Value>
-			<Value>10</Value>
-			<Value>12</Value>
-			<Value>14</Value>
-			<FCEName>Leaves</FCEName>
+			<FCEName>Air</FCEName>
 			<FCEData>0</FCEData>
 		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Lapis Lazuli Ore</MCName>
 		<MCValue>
-			<Value>1</Value>
-			<Value>5</Value>
-			<Value>9</Value>
-			<Value>13</Value>
-			<FCEName>Forest</FCEName>
-			<FCEData>391</FCEData>
-		</MCValue>
-		<MCValue>
-			<Value>3</Value>
-			<Value>7</Value>
-			<Value>11</Value>
-			<Value>15</Value>
-			<FCEName>Rainforest</FCEName>
-			<FCEData>391</FCEData>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
 		</MCValue>
 	</Block>
+	<Block>
+		<MCName>Dispenser</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Note Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Bed</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Powered Rail</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Detector Rail</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Sticky Piston</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Cobweb</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Tall Grass</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dead Shrub</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Piston</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Piston Head</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Piston Moving</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Brown Mushroom</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Red Mushroom</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Slab</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Obsidian</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Torch</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Fire</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Monster Spawner</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wooden Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Wire</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Crops</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wooden Door</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Ladder</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Rails</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Cobblestone Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Lever</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stone Pressure Plate</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Iron Door</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wooden Pressure Plate</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Torch (On)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Torch (Off)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stone Button</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Ice</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Clay Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Sugar Cane</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jukebox</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Fence</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Netherrack</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Soul Sand</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Glowstone Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Portal</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Cake Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Repeater (Off)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Repeater (On)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Trapdoor</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Huge Red Mushroom</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Huge Brown Mushroom</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Iron Bars</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Melon</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Pumpkin Stem</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Melon Stem</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Vines</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Fence Gate</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Brick Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stone Brick Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Lilly Pad</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Nether Brick</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Nether Brick Fence</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Nether Brick Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Nether Wart</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>End Portal</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>End Portal Frame</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>End Stone</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dragon Egg</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wood Slab</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Cocoa Plant</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Sandstone Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Tripwire Hook</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Tripwire</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Spruce Wood Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Birch Wood Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jungle Wood Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Command Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Flower Pot</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Carrots</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Potatoes</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wooden Button</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Heads</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Anvil</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Weighted Pressure Plate (Light)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Weighted Pressure Plate (Heavy)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Comparator (Inactive)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Redstone Comparator (Active)</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Daylight Sensor</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Quartz Stairs</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Activator Rail</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dropper</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dropper</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stained Clay</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Stained Glass Pane</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Leaves 2</MCName>
+		<MCId>161</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wood 2</MCName>
+		<MCId>162</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Acacia Wood Stairs</MCName>
+		<MCId>163</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dark Oak Wood Stairs</MCName>
+		<MCId>164</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Slime Block</MCName>
+		<MCId>165</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Barrier</MCName>
+		<MCId>166</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Iron Trapdoor</MCName>
+		<MCId>167</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Prismarine</MCName>
+		<MCId>168</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>BarrSea Lantern</MCName>
+		<MCId>169</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Hay Block</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Carpet</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Hardened Clay</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Block of Coal</MCName>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Packed Ice</MCName>
+		<MCId>174</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Large Flowers</MCName>
+		<MCId>175</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Standing Banner</MCName>
+		<MCId>176</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Wall Banner</MCName>
+		<MCId>177</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Inverted Daylight Sensor</MCName>
+		<MCId>178</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Red Sandstone</MCName>
+		<MCId>179</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Red Sandstone Stairs</MCName>
+		<MCId>180</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Double Red Sandstone Slab</MCName>
+		<MCId>181</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Red Sandstone Slab</MCName>
+		<MCId>182</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Spruce Fence Gate</MCName>
+		<MCId>183</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Birch Fence Gate</MCName>
+		<MCId>184</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jungle Fence Gate</MCName>
+		<MCId>185</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dark Oak Fence Gate</MCName>
+		<MCId>186</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Acacia Fence Gate</MCName>
+		<MCId>187</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Spruce Fence</MCName>
+		<MCId>188</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Birch Fence</MCName>
+		<MCId>189</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jungle Fence</MCName>
+		<MCId>190</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dark Oak Fence</MCName>
+		<MCId>191</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Acacia Fence</MCName>
+		<MCId>192</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Spruce Door</MCName>
+		<MCId>193</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Birch Door</MCName>
+		<MCId>194</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Jungle Door</MCName>
+		<MCId>195</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Acacia Door</MCName>
+		<MCId>196</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	<Block>
+		<MCName>Dark Oak Door</MCName>
+		<MCId>197</MCId>
+		<MCValue>
+			<Value>-1</Value>
+			<FCEName>Air</FCEName>
+			<FCEData>0</FCEData>
+		</MCValue>
+	</Block>
+	-->
 </MinecraftBlocks>
