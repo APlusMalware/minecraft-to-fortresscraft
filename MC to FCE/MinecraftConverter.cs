@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
 using System.IO;
@@ -16,37 +15,21 @@ namespace MC_to_FCE
 {
     public class MinecraftMapper : IMapper
     {
-        private IDictionary<UInt16, CubeType> _fceCubes;
-		private Dictionary<UInt32, Cube> _mcIdDataToFCECube;
-        private String _fceDirectory;
+		private readonly Dictionary<UInt32, Cube> _mcIdDataToFCECube;
 
         private Int64 _totalSegments;
         private Int64 _segmentsLeft;
 
-		private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-		private ConcurrentQueue<Segment> _saveQueue;
+		private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+		private readonly ConcurrentQueue<Segment> _saveQueue;
         private Task _saveTask;
         private CancellationToken _token;
 
 		public Boolean UseSpawnAsOrigin { get; set; }
 		public IDictionary<UInt16, String> UnknownBlocks { get; set; }
 
-		public IDictionary<UInt16, CubeType> FCECubes
-		{
-			get
-			{
-				return _fceCubes;
-			}
-			set
-			{
-				_fceCubes = value;
-			}
-		}
-		public String FCEDirectory
-		{
-			get { return _fceDirectory; }
-			set { _fceDirectory = value; }
-		}
+		public IDictionary<UInt16, CubeType> FCECubes { get; set; }
+		public String FCEDirectory { get; set; }
 
 		public MinecraftMapper(Boolean useSpawnAsOrigin)
         {
@@ -58,64 +41,56 @@ namespace MC_to_FCE
 
         public List<String> LoadNameMap(String filePath)
         {
-            XmlDocument DocumentMaps = new XmlDocument();
-            ICacheTable<BlockInfo> mcBlockTable = Substrate.BlockInfo.BlockTable;
-            Dictionary<String, String> mcNameToFCEName = new Dictionary<String, String>();
-            Dictionary<String, UInt16> mcNameToId = new Dictionary<String, UInt16>();
-            List<String> unfoundNames = new List<String>();
+            Dictionary<String, UInt16> mcNameToId = BlockInfo.BlockTable.Where(info => info.Registered).ToDictionary(info => info.Name, info => (UInt16)info.ID);
+            var unfoundNames = new List<String>();
 
-            DocumentMaps.Load(filePath);
-
-			var document = XDocument.Load(filePath);
-
-            XmlNodeList elementsByTagName = DocumentMaps.GetElementsByTagName("MinecraftBlocks");
-
-            foreach (var mcBlock in mcBlockTable)
+            var document = XDocument.Load(filePath);
+            var root = document.Element("MinecraftBlocks");
+            if (root == null)
+                return unfoundNames;
+            
+            foreach (var mcBlock in root.Elements("Block"))
             {
-                if (mcBlock.Registered)
-                {
-                    mcNameToId.Add(mcBlock.Name, (UInt16)mcBlock.ID);
-                }
-            }
-
-            foreach (var mcBlock in document.Element("MinecraftBlocks").Elements("Block"))
-            {
-
-				String mcName = mcBlock.Element("MCName") != null ? mcBlock.Element("MCName").Value : "";
-				
+                var mcNameElement = mcBlock.Element("MCName");
+                String mcName = mcNameElement?.Value ?? "";
                 UInt16 mcId;
-                UInt32 mcIdShifted;
                 if (!mcNameToId.TryGetValue(mcName, out mcId))
                 {
                     // If the name isn't found, use the id number
-                    if (mcBlock.Element("MCId") == null || !UInt16.TryParse(mcBlock.Element("MCId").Value, out mcId))
+                    var mcIdElement = mcBlock.Element("MCId");
+                    if (mcIdElement == null || !UInt16.TryParse(mcIdElement.Value, out mcId))
                     {
                         unfoundNames.Add(mcName + " : " + mcBlock.Element("MCId"));
                         continue;
                     }
                 }
-                mcIdShifted = (UInt32)mcId << 16;
+                UInt32 mcIdShifted = (UInt32)mcId << 16;
 
                 foreach (var mcValue in mcBlock.Elements("MCValue"))
                 {
-                    List<SByte> mcData = new List<SByte>();
-					if (mcValue.Elements("Value").Count() > 0)
+                    var mcData = new List<SByte>();
+					if (mcValue.Elements("Value").Any())
 					{
-						foreach (var value in mcValue.Elements("Value"))
-							mcData.Add(SByte.Parse(value.Value));
+					    mcData.AddRange(mcValue.Elements("Value").Select(e => SByte.Parse(e.Value)));
 					}
 					else
 						continue;
-                    String fceName = mcValue.Element("FCEName") != null ? mcValue.Element("FCEName").Value : String.Empty;
-                    UInt16 fceData = mcValue.Element("FCEData") != null ? UInt16.Parse(mcValue.Element("FCEData").Value, NumberStyles.HexNumber) : (UInt16) 0;
 
-					UInt16 fceId = mcValue.Element("FCEId") != null ? UInt16.Parse(mcValue.Element("FCEId").Value) : (UInt16) 0;
+                    var nameElement = mcValue.Element("FCEName");
+                    var dataElement = mcValue.Element("FCEData");
+                    var idElement = mcValue.Element("FCEId");
+                    var orientationElement = mcValue.Element("Orientation");
+
+                    String fceName = nameElement?.Value ?? String.Empty;
+                    UInt16 fceData = UInt16.Parse(dataElement?.Value ?? "0", NumberStyles.HexNumber);
+
+					UInt16 fceId = UInt16.Parse(idElement?.Value ?? "0");
 					Byte orientation = 0;
 
-					if (mcValue.Element("Orientation") != null)
+					if (orientationElement != null)
 					{
-						Char a = mcValue.Element("Orientation").Value[0];
-						Char b = mcValue.Element("Orientation").Value[1];
+						Char a = orientationElement.Value[0];
+						Char b = orientationElement.Value[1];
 						switch (a)
 						{
 							case 'N':
@@ -147,25 +122,23 @@ namespace MC_to_FCE
 					}
 
 					CubeType cubeType;
-					if (!_fceCubes.TryGetValue(fceId, out cubeType))
+					if (!FCECubes.TryGetValue(fceId, out cubeType))
 					{
 						if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
 						{
-							cubeType = generateDetailBlock(fceId);
-							_fceCubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
+							cubeType = GenerateDetailBlock(fceId);
+							FCECubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
 						}
 						else
 						{
-							cubeType = _fceCubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
+							cubeType = FCECubes.FirstOrDefault(c => c.Value.Name == fceName).Value;
 							if (cubeType == null)
 								continue;
 						}
 					}
 
-                    UInt32 fceIdData = (UInt32)cubeType.TypeId << 16 | fceData;
-
 					// Check if there are any negative minecraft data values and skip all others if there are
-					if (mcData.Count(data => data < 0) > 0)
+					if (mcData.Any(data => data < 0))
 					{
 						// Set all id-data combinations equal to this value
 						for (UInt16 i = 0; i < 16; i++)
@@ -177,10 +150,8 @@ namespace MC_to_FCE
 					}
 					else
 					{
-						foreach (SByte mcDatum in mcData)
+						foreach (UInt32 mcIdData in mcData.Select(data => mcIdShifted | (Byte)data))
 						{
-							UInt32 mcIdData = mcIdShifted;
-							mcIdData |= (Byte)mcDatum;
 							_mcIdDataToFCECube[mcIdData] = new Cube(cubeType.TypeId, orientation, fceData, 13);
 						}
 					}
@@ -191,32 +162,27 @@ namespace MC_to_FCE
 
         public World ConvertWorld(String mcDirectory)
         {
-            String segmentDirectory = Path.Combine(_fceDirectory, "Segments");
-            if (!Directory.Exists(_fceDirectory))
+            String segmentDirectory = Path.Combine(FCEDirectory, "Segments");
+            if (!Directory.Exists(FCEDirectory))
             {
-                Directory.CreateDirectory(_fceDirectory);
+                Directory.CreateDirectory(FCEDirectory);
             }
-            if (!Directory.Exists(Path.Combine(_fceDirectory, segmentDirectory)))
+            if (!Directory.Exists(Path.Combine(FCEDirectory, segmentDirectory)))
             {
                 Directory.CreateDirectory(segmentDirectory);
             }
-
-			NbtWorld nbtWorld;
-			String worldName;
-			IChunkManager chunkManager;
+            
 			Boolean anvil = true;
-			Int32 spawnChunkX;
-            Int32 spawnChunkZ;
 
-            nbtWorld = AnvilWorld.Open(mcDirectory);
-            worldName = nbtWorld.Level.LevelName;
-            chunkManager = nbtWorld.GetChunkManager();
+            NbtWorld nbtWorld = AnvilWorld.Open(mcDirectory);
+            String worldName = nbtWorld.Level.LevelName;
+            IChunkManager chunkManager = nbtWorld.GetChunkManager();
             try
             {
                 // Try to test for mc world type
                 // Don't know how this is supposed to work, but it presumably throws an exception
                 // on a non-Anvil world.
-                chunkManager.Count<ChunkRef>();
+                chunkManager.Count();
             }
             catch
 			{
@@ -224,14 +190,14 @@ namespace MC_to_FCE
 				nbtWorld = BetaWorld.Open(mcDirectory);
 				worldName = nbtWorld.Level.LevelName;
 				chunkManager = nbtWorld.GetChunkManager();
-			}	
-			spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
-			spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
+			}
+            Int32 spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
+            Int32 spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
 
-            World fceWorld = new World(worldName, _fceDirectory);
+            var fceWorld = new World(worldName, FCEDirectory);
             _totalSegments = chunkManager.LongCount() * (anvil ? 16 : 8);
             _segmentsLeft = _totalSegments;
-            startSaveThread(fceWorld);
+            StartSaveThread(fceWorld);
             foreach (ChunkRef chunk in chunkManager)
             {
                 // If the save thread is too slow, wait until it has caught up before adding to it to prevent high ram usage
@@ -250,12 +216,12 @@ namespace MC_to_FCE
                 Int32 spawnOffsetZ = UseSpawnAsOrigin ? spawnChunkZ - chunk.Z : -chunk.Z;
 				
                 // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
-				SegmentCoords chunkCoords = new SegmentCoords(spawnOffsetX, 0, -spawnOffsetZ) + SegmentCoords.WORLD_CENTER;
+				var chunkCoords = new SegmentCoords(spawnOffsetX, 0, -spawnOffsetZ) + SegmentCoords.WORLD_CENTER;
                 for (Int32 i = 0; i < (anvil ? 16 : 8); i++)
                 {
                     SegmentCoords segCoords = chunkCoords + SegmentCoords.ABOVE * i;
-                    Segment segment = new Segment(fceWorld, segCoords);
-                    Cube[,,] array = new Cube[16, 16, 16];
+                    var segment = new Segment(fceWorld, segCoords);
+                    var array = new Cube[16, 16, 16];
                     for (Byte x = 0; x < 16; x++)
                     {
                         for (Byte y = 0; y < 16; y++)
@@ -288,7 +254,7 @@ namespace MC_to_FCE
 				// Possibly replace this in the future with simply shifting the world up 
 				for (Int32 i = (anvil ? 16 : 8); i < 27; i++)
 				{
-					Segment padding = new Segment(fceWorld, chunkCoords + SegmentCoords.ABOVE * i);
+					var padding = new Segment(fceWorld, chunkCoords + SegmentCoords.ABOVE * i);
 					padding.CubeData = Segment.GetBlankSegment().CubeData;
 					padding.IsEmpty = true;
 					_saveQueue.Enqueue(padding);
@@ -299,38 +265,36 @@ namespace MC_to_FCE
             return fceWorld;
         }
 
-        private CubeType generateDetailBlock(UInt16 typeId)
+        private static CubeType GenerateDetailBlock(UInt16 typeId)
         {
             return new CubeType(typeId, "Detail" + typeId, null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, true, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
         }
 
-        public void checkSubDir(World world, SegmentCoords coords)
+        public void CheckSubDir(World world, SegmentCoords coords)
         {
-			SubdirectoryCoords subCoords = new SubdirectoryCoords(coords);
+			var subCoords = new SubdirectoryCoords(coords);
             string subDir = "d-" + subCoords.X.ToString("X") + "-" + subCoords.Y.ToString("X") + "-" + subCoords.Z.ToString("X");
             string path = world.SegmentPath + subDir;
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }
 
-        private void startSaveThread(World world)
+        private void StartSaveThread(World world)
 		{
-			ConcurrentQueue<Segment> queue = _saveQueue;
             _token = _tokenSource.Token;
             _saveTask = Task.Factory.StartNew(() =>
             {
-                Segment segment;
-                
-                while (_segmentsLeft > 0 || queue.Count > 0)
+                while (_segmentsLeft > 0 || _saveQueue.Count > 0)
                 {
+                    Segment segment;
                     if (_token.IsCancellationRequested)
                         break;
-                    if (queue.TryDequeue(out segment))
+                    if (!_saveQueue.TryDequeue(out segment))
+                        continue;
+                    CheckSubDir(world, segment.Coords);
+                    using (var fs = File.Open(Path.Combine(world.SegmentPath, segment.GetSegmentFileName()), FileMode.Create))
                     {
-                        checkSubDir(world, segment.Coords);
-                        FileStream fs = File.Open(Path.Combine(world.SegmentPath, segment.GetSegmentFileName()), FileMode.Create);
                         segment.WriteSegment(fs);
-                        fs.Dispose();
                     }
                 }
             }, _tokenSource.Token);

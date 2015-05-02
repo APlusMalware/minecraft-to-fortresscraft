@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Synergy.FCU;
 
 namespace MC_to_FCE
 {
@@ -68,7 +65,7 @@ namespace MC_to_FCE
 
 		private async void StartConvertButton_click(object sender, EventArgs e)
 		{
-			Progress<String> progress = new Progress<String>(s => logBox.AppendText(s));
+			var progress = new Progress<String>(s => logBox.AppendText(s));
 
 			Boolean useSpawnAsOrigin = UseSpawnAsOriginCheckBox.Checked;
 
@@ -98,8 +95,8 @@ namespace MC_to_FCE
 				return;
 			}
 
-			MinecraftMapper mapper = new MinecraftMapper(useSpawnAsOrigin);
-			Converter converter = new Converter(terrainDataPath, fceDirectory, mapper);
+			var mapper = new MinecraftMapper(useSpawnAsOrigin);
+			var converter = new Converter(terrainDataPath, fceDirectory, mapper);
 
 			StartConvertButton.Enabled = false;
 			await Task.Factory.StartNew(() => converter.Begin(mcDirectory, mcNamesToFCENames, progress));

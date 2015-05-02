@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MC_to_FCE
@@ -15,7 +14,7 @@ namespace MC_to_FCE
 		{
 			if (args.Length > 3)
 			{
-				processArguments(args);
+				ProcessArguments(args);
 				Console.Read();
 			}
 			else
@@ -26,7 +25,7 @@ namespace MC_to_FCE
 			}
         }
 
-		private static void processArguments(String[] args)
+		private static void ProcessArguments(String[] args)
 		{
 			String fceDirectory = args[0];
 			String mcDirectory = args[1];
@@ -34,7 +33,7 @@ namespace MC_to_FCE
 			String nameMapPath = args[3];
 			Boolean useSpawnAsOrigin = !(args.Length > 4 && args[4] == "-o");
 
-			Progress<String> progress = new Progress<String>(s => Console.WriteLine(s));
+			var progress = new Progress<String>(Console.WriteLine);
 
 			if (!File.Exists(nameMapPath))
 			{
@@ -57,8 +56,8 @@ namespace MC_to_FCE
 				return;
 			}
 
-			MinecraftMapper mapper = new MinecraftMapper(useSpawnAsOrigin);
-			Converter converter = new Converter(terrainDataPath, fceDirectory, mapper);
+			var mapper = new MinecraftMapper(useSpawnAsOrigin);
+			var converter = new Converter(terrainDataPath, fceDirectory, mapper);
 			
 			converter.Begin(mcDirectory, nameMapPath, progress);
 		}
