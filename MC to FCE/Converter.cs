@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-
-using Synergy.FCU;
+using System.Xml;
+using System.Xml.Serialization;
+using Synergy;
+using Synergy.Installation;
 
 namespace MC_to_FCE
 {
@@ -26,8 +28,10 @@ namespace MC_to_FCE
 			progress.Report("Preparing to convert...\n");
 			CleanSegmentDirectory();
 
-			IDictionary<UInt16, CubeType> cubeTypes = CubeType.LoadFromFile(_terrainDataPath);
-			Segment.CubeList = cubeTypes;
+		    var cubeTypeSerializer = new XmlSerializer(typeof (CubeType));
+		    IDictionary<UInt16, CubeType> cubeTypes;
+            using (Stream stream = File.OpenRead(_terrainDataPath))
+                cubeTypes = CubeType.CreateDictionary((CubeType[])cubeTypeSerializer.Deserialize(stream));
 			_mapper.FCECubes = cubeTypes;
 			_mapper.FCEDirectory = _destinationDirectory;
 

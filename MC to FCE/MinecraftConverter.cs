@@ -7,9 +7,10 @@ using System.Linq;
 using System.IO;
 using Substrate;
 using Substrate.Core;
-using Synergy.FCU;
 using System.Globalization;
 using System.Threading;
+using Synergy;
+using Synergy.Installation;
 
 namespace MC_to_FCE
 {
@@ -95,27 +96,27 @@ namespace MC_to_FCE
 						{
 							case 'N':
 							case 'n':
-								orientation = Cube.NORTH_FACE;
+								orientation = Cube.NorthFace;
 								break;
 							case 'S':
 							case 's':
-								orientation = Cube.SOUTH_FACE;
+								orientation = Cube.SouthFace;
 								break;
 							case 'E':
 							case 'e':
-								orientation = Cube.EAST_FACE;
+								orientation = Cube.EastFace;
 								break;
 							case 'W':
 							case 'w':
-								orientation = Cube.WEST_FACE;
+								orientation = Cube.WestFace;
 								break;
 							case 'A':
 							case 'a':
-								orientation = Cube.ABOVE_FACE;
+								orientation = Cube.AboveFace;
 								break;
 							case 'B':
 							case 'b':
-								orientation = Cube.BELOW_FACE;
+								orientation = Cube.BelowFace;
 								break;
 						}
 						orientation += (Byte)(Byte.Parse(b.ToString()) << 6);
@@ -124,7 +125,7 @@ namespace MC_to_FCE
 					CubeType cubeType;
 					if (!FCECubes.TryGetValue(fceId, out cubeType))
 					{
-						if (fceId >= CubeType.MIN_DETAIL_TYPEID && fceId <= CubeType.MAX_DETAIL_TYPEID)
+						if (fceId >= CubeType.MinDetailTypeId && fceId <= CubeType.MaxDetailTypeId)
 						{
 							cubeType = GenerateDetailBlock(fceId);
 							FCECubes.Add(new KeyValuePair<UInt16, CubeType>(fceId, cubeType));
@@ -194,7 +195,10 @@ namespace MC_to_FCE
             Int32 spawnChunkX = nbtWorld.Level.Spawn.X >> 4;
             Int32 spawnChunkZ = nbtWorld.Level.Spawn.Z >> 4;
 
-            var fceWorld = new World(worldName, FCEDirectory);
+            WorldSettings settings = new WorldSettings();
+            settings.Name = worldName;
+            var fceWorld = World.Create(FCEDirectory, settings);
+            var segmentManager = fceWorld.SegmentManager;
             _totalSegments = chunkManager.LongCount() * (anvil ? 16 : 8);
             _segmentsLeft = _totalSegments;
             StartSaveThread(fceWorld);
@@ -216,11 +220,11 @@ namespace MC_to_FCE
                 Int32 spawnOffsetZ = UseSpawnAsOrigin ? spawnChunkZ - chunk.Z : -chunk.Z;
 				
                 // Minecraft has different x/y directions so we must reverse z so the world isn't mirrored
-				var chunkCoords = new SegmentCoords(spawnOffsetX, 0, -spawnOffsetZ) + SegmentCoords.WORLD_CENTER;
+				var chunkCoords = new SegmentCoords(spawnOffsetX, 0, -spawnOffsetZ) + SegmentCoords.WorldCenter;
                 for (Int32 i = 0; i < (anvil ? 16 : 8); i++)
                 {
-                    SegmentCoords segCoords = chunkCoords + SegmentCoords.ABOVE * i;
-                    var segment = new Segment(fceWorld, segCoords);
+                    SegmentCoords segCoords = chunkCoords + SegmentCoords.Above * i;
+                    var segment = new Segment(segmentManager, segCoords);
                     var array = new Cube[16, 16, 16];
                     for (Byte x = 0; x < 16; x++)
                     {
@@ -254,7 +258,7 @@ namespace MC_to_FCE
 				// Possibly replace this in the future with simply shifting the world up 
 				for (Int32 i = (anvil ? 16 : 8); i < 27; i++)
 				{
-					var padding = new Segment(fceWorld, chunkCoords + SegmentCoords.ABOVE * i);
+					var padding = new Segment(segmentManager, chunkCoords + SegmentCoords.Above * i);
 					padding.CubeData = Segment.GetBlankSegment().CubeData;
 					padding.IsEmpty = true;
 					_saveQueue.Enqueue(padding);
@@ -267,14 +271,32 @@ namespace MC_to_FCE
 
         private static CubeType GenerateDetailBlock(UInt16 typeId)
         {
-            return new CubeType(typeId, "Detail" + typeId, null, null, null, new List<ValueEntry>(), null, "PrimaryLayer", 2, 2, 2, 2, new List<Stage>(), null, true, false, true, false, false, false, false, true, false, null, "Dirt", "Dirt", "Dirt", new List<String>());
+            return new CubeType
+            {
+                 TypeId = typeId,
+                Name = "Detail" + typeId,
+                Values = new List<ValueEntry>(),
+                LayerType = "PrimaryLayer",
+                TopTexture = 2,
+                SideTexture = 2,
+                BottomTexture = 2,
+                GuiTexture = 2,
+                Stages = new List<Stage>(),
+                IsSolid = true,
+                IsHollow = true,
+                HasObject = true,
+                AudioWalkType = "Dirt",
+                AudioBuildType = "Dirt",
+                AudioDestroyType = "Dirt",
+                Tags = new List<String>()
+            };
         }
 
         public void CheckSubDir(World world, SegmentCoords coords)
         {
 			var subCoords = new SubdirectoryCoords(coords);
             string subDir = "d-" + subCoords.X.ToString("X") + "-" + subCoords.Y.ToString("X") + "-" + subCoords.Z.ToString("X");
-            string path = world.SegmentPath + subDir;
+            string path = world.SegmentManager.SegmentPath + subDir;
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }
@@ -292,7 +314,7 @@ namespace MC_to_FCE
                     if (!_saveQueue.TryDequeue(out segment))
                         continue;
                     CheckSubDir(world, segment.Coords);
-                    using (var fs = File.Open(Path.Combine(world.SegmentPath, segment.GetSegmentFileName()), FileMode.Create))
+                    using (var fs = File.Open(Path.Combine(world.SegmentManager.SegmentPath, segment.GetSegmentFileName()), FileMode.Create))
                     {
                         segment.WriteSegment(fs);
                     }

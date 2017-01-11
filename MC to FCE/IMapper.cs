@@ -1,6 +1,7 @@
-﻿using Synergy.FCU;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Synergy;
+using Synergy.Installation;
 
 namespace MC_to_FCE
 {
